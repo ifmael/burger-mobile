@@ -7,7 +7,15 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "prepare": "husky install",
+    "lint": "eslint src --ext .ts,.tsx,.js,jsx",
+    "lint:fix": "eslint src --fix --ext .ts,.tsx,.js,jsx",
+    "format": "prettier --write \"src/**/*.+(ts|tsx|js|jsx|json|css|md)\"",
+    "release:patch": "standard-version",
+    "release:minor": "standard-version -r minor",
+    "release:major": "standard-version -r major",
+    "release:simulation": "standard-version --dry-run"
   },
   "dependencies": {
     "expo": "~44.0.0",
@@ -17,11 +25,78 @@
     "react-native": "0.64.3",
     "react-native-web": "0.17.1"
   },
+  "eslintConfig": {
+    "env": {
+      "es2021": true,
+      "react-native/react-native": true
+    },
+    "extends": [
+      "airbnb",
+      "airbnb/hooks",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:prettier/recommended",
+      "plugin:react/recommended",
+      "plugin:react/jsx-runtime",
+      "plugin:react-native/all",
+      "prettier"
+    ],
+    "rules": {
+      "prettier/prettier": "error",
+      "@typescript-eslint/ban-ts-comment": "off",
+      "react/function-component-definition": [
+        2,
+        {
+          "namedComponents": "function-declaration",
+          "unnamedComponents": "arrow-function"
+        }
+      ],
+      "react/jsx-filename-extension": [
+        2,
+        {
+          "extensions": [
+            ".js",
+            ".jsx",
+            ".ts",
+            ".tsx"
+          ]
+        }
+      ],
+      "react/style-prop-object": 0
+    },
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint",
+      "prettier",
+      "react",
+      "react-native"
+    ]
+  },
   "devDependencies": {
     "@babel/core": "^7.12.9",
+    "@commitlint/cli": "^15.0.0",
+    "@commitlint/config-conventional": "^15.0.0",
     "@types/react": "~17.0.21",
     "@types/react-native": "~0.64.12",
+    "@typescript-eslint/eslint-plugin": "^5.8.0",
+    "@typescript-eslint/parser": "^5.8.0",
+    "eslint": "^8.2.0",
+    "eslint-config-airbnb": "19.0.2",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.27.1",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "eslint-plugin-react-native": "^4.0.0",
+    "husky": "^7.0.4",
+    "prettier": "^2.5.1",
+    "standard-version": "^9.3.2",
+    "standard-version-expo": "^1.0.3",
     "typescript": "~4.3.5"
+  },
+  "prettier": {
+    "printWidth": 120,
+    "endOfLine": "auto"
   },
   "private": true
 }
