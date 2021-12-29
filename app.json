@@ -1,8 +1,10 @@
 {
   "expo": {
-    "name": "umami-mobile",
-    "slug": "umami-mobile",
-    "version": "1.0.0",
+    "name": "umamiapp",
+    "description": "Hamburgueseria Umami",
+    "slug": "umami-burger",
+    "version": "0.0.0",
+    "owner": "ifmael",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {

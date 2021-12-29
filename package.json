@@ -1,102 +1,131 @@
 {
-  "name": "umami-mobile",
-  "version": "1.0.0",
-  "main": "node_modules/expo/AppEntry.js",
-  "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web",
-    "eject": "expo eject",
-    "prepare": "husky install",
-    "lint": "eslint src --ext .ts,.tsx,.js,jsx",
-    "lint:fix": "eslint src --fix --ext .ts,.tsx,.js,jsx",
-    "format": "prettier --write \"src/**/*.+(ts|tsx|js|jsx|json|css|md)\"",
-    "release:patch": "standard-version",
-    "release:minor": "standard-version -r minor",
-    "release:major": "standard-version -r major",
-    "release:simulation": "standard-version --dry-run"
-  },
-  "dependencies": {
-    "expo": "~44.0.0",
-    "expo-status-bar": "~1.2.0",
-    "react": "17.0.1",
-    "react-dom": "17.0.1",
-    "react-native": "0.64.3",
-    "react-native-web": "0.17.1"
-  },
-  "eslintConfig": {
-    "env": {
-      "es2021": true,
-      "react-native/react-native": true
+    "name": "umami-mobile",
+    "version": "1.0.0",
+    "main": "node_modules/expo/AppEntry.js",
+    "scripts": {
+        "start": "expo start",
+        "android": "expo start --android",
+        "ios": "expo start --ios",
+        "web": "expo start --web",
+        "eject": "expo eject",
+        "prepare": "husky install",
+        "lint": "eslint src --ext .ts,.tsx,.js,jsx",
+        "lint:fix": "eslint src --fix --ext .ts,.tsx,.js,jsx",
+        "format": "prettier --write \"src/**/*.+(ts|tsx|js|jsx|json|css|md)\"",
+        "release:patch": "standard-version",
+        "release:minor": "standard-version -r minor",
+        "release:major": "standard-version -r major",
+        "release:simulation": "standard-version --dry-run",
+        "download-schema": "get-graphql-schema  http://localhost:1337/graphql  > ./src/graphql/schema.graphql",
+        "codegen": "yarn download-schema && graphql-codegen --config codegen.yml"
     },
-    "extends": [
-      "airbnb",
-      "airbnb/hooks",
-      "plugin:@typescript-eslint/recommended",
-      "plugin:prettier/recommended",
-      "plugin:react/recommended",
-      "plugin:react/jsx-runtime",
-      "plugin:react-native/all",
-      "prettier"
-    ],
-    "rules": {
-      "prettier/prettier": "error",
-      "@typescript-eslint/ban-ts-comment": "off",
-      "react/function-component-definition": [
-        2,
-        {
-          "namedComponents": "function-declaration",
-          "unnamedComponents": "arrow-function"
-        }
-      ],
-      "react/jsx-filename-extension": [
-        2,
-        {
-          "extensions": [
-            ".js",
-            ".jsx",
-            ".ts",
-            ".tsx"
-          ]
-        }
-      ],
-      "react/style-prop-object": 0
+    "dependencies": {
+        "@apollo/client": "^3.5.6",
+        "@expo/config-types": "^43.0.1",
+        "@expo/webpack-config": "^0.16.15",
+        "dotenv": "^10.0.0",
+        "expo": "~44.0.0",
+        "expo-constants": "^13.0.0",
+        "expo-status-bar": "~1.2.0",
+        "expo-updates": "^0.11.3",
+        "graphql": "^16.2.0",
+        "react": "17.0.1",
+        "react-dom": "17.0.1",
+        "react-native": "0.64.3",
+        "react-native-web": "0.17.1",
+        "ts-node": "^10.4.0"
     },
-    "parser": "@typescript-eslint/parser",
-    "plugins": [
-      "@typescript-eslint",
-      "prettier",
-      "react",
-      "react-native"
-    ]
-  },
-  "devDependencies": {
-    "@babel/core": "^7.12.9",
-    "@commitlint/cli": "^15.0.0",
-    "@commitlint/config-conventional": "^15.0.0",
-    "@types/react": "~17.0.21",
-    "@types/react-native": "~0.64.12",
-    "@typescript-eslint/eslint-plugin": "^5.8.0",
-    "@typescript-eslint/parser": "^5.8.0",
-    "eslint": "^8.2.0",
-    "eslint-config-airbnb": "19.0.2",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.25.3",
-    "eslint-plugin-jsx-a11y": "^6.5.1",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-react": "^7.27.1",
-    "eslint-plugin-react-hooks": "^4.3.0",
-    "eslint-plugin-react-native": "^4.0.0",
-    "husky": "^7.0.4",
-    "prettier": "^2.5.1",
-    "standard-version": "^9.3.2",
-    "standard-version-expo": "^1.0.3",
-    "typescript": "~4.3.5"
-  },
-  "prettier": {
-    "printWidth": 120,
-    "endOfLine": "auto"
-  },
-  "private": true
+    "eslintConfig": {
+        "env": {
+            "es2021": true,
+            "react-native/react-native": true
+        },
+        "extends": [
+            "airbnb",
+            "airbnb/hooks",
+            "plugin:@typescript-eslint/recommended",
+            "plugin:prettier/recommended",
+            "plugin:react/recommended",
+            "plugin:react/jsx-runtime",
+            "plugin:react-native/all",
+            "prettier",
+            "plugin:import/recommended",
+            "plugin:import/typescript"
+        ],
+        "ignorePatterns": [
+            "./src/graphql/models.tsx",
+            "./codegen.yml"
+        ],
+        "rules": {
+            "prettier/prettier": "error",
+            "@typescript-eslint/ban-ts-comment": "off",
+            "react/function-component-definition": [
+                2,
+                {
+                    "namedComponents": "function-declaration",
+                    "unnamedComponents": "arrow-function"
+                }
+            ],
+            "react/jsx-filename-extension": [
+                2,
+                {
+                    "extensions": [
+                        ".js",
+                        ".jsx",
+                        ".ts",
+                        ".tsx"
+                    ]
+                }
+            ],
+            "react/style-prop-object": 0,
+            "import/extensions": [
+                "error",
+                "never"
+            ]
+        },
+        "parser": "@typescript-eslint/parser",
+        "plugins": [
+            "@typescript-eslint",
+            "prettier",
+            "react",
+            "react-native"
+        ]
+    },
+    "devDependencies": {
+        "@babel/core": "^7.12.9",
+        "@commitlint/cli": "^15.0.0",
+        "@commitlint/config-conventional": "^15.0.0",
+        "@graphql-codegen/cli": "2.3.0",
+        "@graphql-codegen/introspection": "2.1.0",
+        "@graphql-codegen/typescript": "2.4.1",
+        "@graphql-codegen/typescript-operations": "^2.2.1",
+        "@graphql-codegen/typescript-react-apollo": "3.2.2",
+        "@types/react": "~17.0.21",
+        "@types/react-native": "~0.64.12",
+        "@typescript-eslint/eslint-plugin": "^5.8.0",
+        "@typescript-eslint/parser": "^5.8.0",
+        "eslint": "^8.2.0",
+        "eslint-config-airbnb": "19.0.2",
+        "eslint-config-prettier": "^8.3.0",
+        "eslint-import-resolver-typescript": "^2.5.0",
+        "eslint-import-resolver-webpack": "^0.13.2",
+        "eslint-plugin-import": "^2.25.3",
+        "eslint-plugin-jsx-a11y": "^6.5.1",
+        "eslint-plugin-prettier": "^4.0.0",
+        "eslint-plugin-react": "^7.27.1",
+        "eslint-plugin-react-hooks": "^4.3.0",
+        "eslint-plugin-react-native": "^4.0.0",
+        "get-graphql-schema": "^2.1.2",
+        "husky": "^7.0.4",
+        "prettier": "^2.5.1",
+        "standard-version": "^9.3.2",
+        "standard-version-expo": "^1.0.3",
+        "typescript": "~4.3.5"
+    },
+    "prettier": {
+        "printWidth": 120,
+        "endOfLine": "auto",
+        "tabWidth": 4
+    },
+    "private": true
 }
