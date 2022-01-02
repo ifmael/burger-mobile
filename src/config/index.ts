@@ -14,7 +14,7 @@ const getConfigEnvironment = (): Config => {
     if (releaseChannel === "default") {
         config = {
             server: Constants.manifest?.extra?.server.local,
-            apiToken: Constants.manifest?.extra?.secret.development,
+            apiToken: Constants.manifest?.extra?.secret.local,
         };
     } else if (releaseChannel.indexOf("production") !== -1) {
         config = {

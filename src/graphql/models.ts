@@ -19,8 +19,6 @@ export type Scalars = {
   DateTime: any;
   /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
   JSON: any;
-  OptionElementsDynamicZoneInput: any;
-  RestaurantSchuduleDynamicZoneInput: any;
   /** A time string with format HH:mm:ss.SSS */
   Time: any;
   /** The `Upload` scalar type represents a file upload. */
@@ -32,9 +30,24 @@ export type Beverage = {
   category?: Maybe<CategoryEntityResponse>;
   createdAt?: Maybe<Scalars['DateTime']>;
   name: Scalars['String'];
+  options?: Maybe<OptionRelationResponseCollection>;
   position: Scalars['Int'];
-  price: Scalars['Float'];
+  restaurant?: Maybe<Array<Maybe<ComponentBeverageRestaurant>>>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+
+export type BeverageOptionsArgs = {
+  filters?: InputMaybe<OptionFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+
+export type BeverageRestaurantArgs = {
+  filters?: InputMaybe<ComponentBeverageRestaurantFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 export type BeverageEntity = {
@@ -61,17 +74,23 @@ export type BeverageFiltersInput = {
   id?: InputMaybe<IdFilterInput>;
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<BeverageFiltersInput>;
+  options?: InputMaybe<OptionFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<BeverageFiltersInput>>>;
   position?: InputMaybe<IntFilterInput>;
-  price?: InputMaybe<FloatFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
 export type BeverageInput = {
   category?: InputMaybe<Scalars['ID']>;
   name?: InputMaybe<Scalars['String']>;
+  options?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   position?: InputMaybe<Scalars['Int']>;
-  price?: InputMaybe<Scalars['Float']>;
+  restaurant?: InputMaybe<Array<InputMaybe<ComponentBeverageRestaurantInput>>>;
+};
+
+export type BeverageRelationResponseCollection = {
+  __typename?: 'BeverageRelationResponseCollection';
+  data: Array<BeverageEntity>;
 };
 
 export type BooleanFilterInput = {
@@ -99,26 +118,28 @@ export type BooleanFilterInput = {
 
 export type Burger = {
   __typename?: 'Burger';
-  beverage?: Maybe<OptionEntityResponse>;
-  bread?: Maybe<OptionEntityResponse>;
   category?: Maybe<CategoryEntityResponse>;
   createdAt?: Maybe<Scalars['DateTime']>;
   description?: Maybe<Scalars['String']>;
   ingredients?: Maybe<IngredientRelationResponseCollection>;
   isChildrenMenu?: Maybe<Scalars['Boolean']>;
   isYourTaste?: Maybe<Scalars['Boolean']>;
-  meat?: Maybe<OptionEntityResponse>;
-  meatPoint?: Maybe<OptionEntityResponse>;
   name: Scalars['String'];
   position: Scalars['Int'];
-  price: Scalars['Float'];
-  side?: Maybe<OptionEntityResponse>;
+  restaurants?: Maybe<Array<Maybe<ComponentBurguerRestaurant>>>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 
 export type BurgerIngredientsArgs = {
   filters?: InputMaybe<IngredientFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+
+export type BurgerRestaurantsArgs = {
+  filters?: InputMaybe<ComponentBurguerRestaurantFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
@@ -142,8 +163,6 @@ export type BurgerEntityResponseCollection = {
 
 export type BurgerFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<BurgerFiltersInput>>>;
-  beverage?: InputMaybe<OptionFiltersInput>;
-  bread?: InputMaybe<OptionFiltersInput>;
   category?: InputMaybe<CategoryFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
@@ -151,31 +170,22 @@ export type BurgerFiltersInput = {
   ingredients?: InputMaybe<IngredientFiltersInput>;
   isChildrenMenu?: InputMaybe<BooleanFilterInput>;
   isYourTaste?: InputMaybe<BooleanFilterInput>;
-  meat?: InputMaybe<OptionFiltersInput>;
-  meatPoint?: InputMaybe<OptionFiltersInput>;
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<BurgerFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<BurgerFiltersInput>>>;
   position?: InputMaybe<IntFilterInput>;
-  price?: InputMaybe<FloatFilterInput>;
-  side?: InputMaybe<OptionFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
 export type BurgerInput = {
-  beverage?: InputMaybe<Scalars['ID']>;
-  bread?: InputMaybe<Scalars['ID']>;
   category?: InputMaybe<Scalars['ID']>;
   description?: InputMaybe<Scalars['String']>;
   ingredients?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   isChildrenMenu?: InputMaybe<Scalars['Boolean']>;
   isYourTaste?: InputMaybe<Scalars['Boolean']>;
-  meat?: InputMaybe<Scalars['ID']>;
-  meatPoint?: InputMaybe<Scalars['ID']>;
   name?: InputMaybe<Scalars['String']>;
   position?: InputMaybe<Scalars['Int']>;
-  price?: InputMaybe<Scalars['Float']>;
-  side?: InputMaybe<Scalars['ID']>;
+  restaurants?: InputMaybe<Array<InputMaybe<ComponentBurguerRestaurantInput>>>;
 };
 
 export type BurgerRelationResponseCollection = {
@@ -229,95 +239,151 @@ export type CategoryInput = {
   position?: InputMaybe<Scalars['Int']>;
 };
 
-export type ComponentBurguerMeats = {
-  __typename?: 'ComponentBurguerMeats';
+export type ComponentBeverageRestaurant = {
+  __typename?: 'ComponentBeverageRestaurant';
+  available: Scalars['Boolean'];
   id: Scalars['ID'];
-  ingredients?: Maybe<IngredientRelationResponseCollection>;
+  price: Scalars['Float'];
+  restaurant?: Maybe<RestaurantEntityResponse>;
 };
 
-
-export type ComponentBurguerMeatsIngredientsArgs = {
-  filters?: InputMaybe<IngredientFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+export type ComponentBeverageRestaurantFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ComponentBeverageRestaurantFiltersInput>>>;
+  available?: InputMaybe<BooleanFilterInput>;
+  not?: InputMaybe<ComponentBeverageRestaurantFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ComponentBeverageRestaurantFiltersInput>>>;
+  price?: InputMaybe<FloatFilterInput>;
+  restaurant?: InputMaybe<RestaurantFiltersInput>;
 };
 
-export type ComponentBurguerPointCooking = {
-  __typename?: 'ComponentBurguerPointCooking';
-  data?: Maybe<ItemRelationResponseCollection>;
+export type ComponentBeverageRestaurantInput = {
+  available?: InputMaybe<Scalars['Boolean']>;
+  id?: InputMaybe<Scalars['ID']>;
+  price?: InputMaybe<Scalars['Float']>;
+  restaurant?: InputMaybe<Scalars['ID']>;
+};
+
+export type ComponentBurguerRestaurant = {
+  __typename?: 'ComponentBurguerRestaurant';
+  available: Scalars['Boolean'];
+  beverage?: Maybe<OptionEntityResponse>;
+  bread?: Maybe<OptionEntityResponse>;
   id: Scalars['ID'];
+  meat?: Maybe<OptionEntityResponse>;
+  meatPoint?: Maybe<OptionEntityResponse>;
+  price: Scalars['Float'];
+  restaurant?: Maybe<RestaurantEntityResponse>;
+  sides?: Maybe<OptionEntityResponse>;
 };
 
-
-export type ComponentBurguerPointCookingDataArgs = {
-  filters?: InputMaybe<ItemFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+export type ComponentBurguerRestaurantFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ComponentBurguerRestaurantFiltersInput>>>;
+  available?: InputMaybe<BooleanFilterInput>;
+  beverage?: InputMaybe<OptionFiltersInput>;
+  bread?: InputMaybe<OptionFiltersInput>;
+  meat?: InputMaybe<OptionFiltersInput>;
+  meatPoint?: InputMaybe<OptionFiltersInput>;
+  not?: InputMaybe<ComponentBurguerRestaurantFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ComponentBurguerRestaurantFiltersInput>>>;
+  price?: InputMaybe<FloatFilterInput>;
+  restaurant?: InputMaybe<RestaurantFiltersInput>;
+  sides?: InputMaybe<OptionFiltersInput>;
 };
 
-export type ComponentCommonBread = {
-  __typename?: 'ComponentCommonBread';
-  data?: Maybe<ItemRelationResponseCollection>;
+export type ComponentBurguerRestaurantInput = {
+  available?: InputMaybe<Scalars['Boolean']>;
+  beverage?: InputMaybe<Scalars['ID']>;
+  bread?: InputMaybe<Scalars['ID']>;
+  id?: InputMaybe<Scalars['ID']>;
+  meat?: InputMaybe<Scalars['ID']>;
+  meatPoint?: InputMaybe<Scalars['ID']>;
+  price?: InputMaybe<Scalars['Float']>;
+  restaurant?: InputMaybe<Scalars['ID']>;
+  sides?: InputMaybe<Scalars['ID']>;
+};
+
+export type ComponentDessertRestaurant = {
+  __typename?: 'ComponentDessertRestaurant';
+  available: Scalars['Boolean'];
   id: Scalars['ID'];
+  price: Scalars['Float'];
+  restaurant?: Maybe<RestaurantEntityResponse>;
 };
 
-
-export type ComponentCommonBreadDataArgs = {
-  filters?: InputMaybe<ItemFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+export type ComponentDessertRestaurantFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ComponentDessertRestaurantFiltersInput>>>;
+  available?: InputMaybe<BooleanFilterInput>;
+  not?: InputMaybe<ComponentDessertRestaurantFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ComponentDessertRestaurantFiltersInput>>>;
+  price?: InputMaybe<FloatFilterInput>;
+  restaurant?: InputMaybe<RestaurantFiltersInput>;
 };
 
-export type ComponentMenuBeverage = {
-  __typename?: 'ComponentMenuBeverage';
+export type ComponentDessertRestaurantInput = {
+  available?: InputMaybe<Scalars['Boolean']>;
+  id?: InputMaybe<Scalars['ID']>;
+  price?: InputMaybe<Scalars['Float']>;
+  restaurant?: InputMaybe<Scalars['ID']>;
+};
+
+export type ComponentIngredientRestaurant = {
+  __typename?: 'ComponentIngredientRestaurant';
   id: Scalars['ID'];
-  items?: Maybe<Array<Maybe<ComponentMenuBeverateItem>>>;
+  price: Scalars['Float'];
+  restaurant?: Maybe<RestaurantEntityResponse>;
 };
 
-
-export type ComponentMenuBeverageItemsArgs = {
-  filters?: InputMaybe<ComponentMenuBeverateItemFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+export type ComponentIngredientRestaurantFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ComponentIngredientRestaurantFiltersInput>>>;
+  not?: InputMaybe<ComponentIngredientRestaurantFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ComponentIngredientRestaurantFiltersInput>>>;
+  price?: InputMaybe<FloatFilterInput>;
+  restaurant?: InputMaybe<RestaurantFiltersInput>;
 };
 
-export type ComponentMenuBeverateItem = {
-  __typename?: 'ComponentMenuBeverateItem';
-  beverage?: Maybe<BeverageEntityResponse>;
+export type ComponentIngredientRestaurantInput = {
+  id?: InputMaybe<Scalars['ID']>;
+  price?: InputMaybe<Scalars['Float']>;
+  restaurant?: InputMaybe<Scalars['ID']>;
+};
+
+export type ComponentItemRestaurant = {
+  __typename?: 'ComponentItemRestaurant';
   id: Scalars['ID'];
+  price: Scalars['Float'];
+  restaurant?: Maybe<RestaurantEntityResponse>;
 };
 
-export type ComponentMenuBeverateItemFiltersInput = {
-  and?: InputMaybe<Array<InputMaybe<ComponentMenuBeverateItemFiltersInput>>>;
-  beverage?: InputMaybe<BeverageFiltersInput>;
-  not?: InputMaybe<ComponentMenuBeverateItemFiltersInput>;
-  or?: InputMaybe<Array<InputMaybe<ComponentMenuBeverateItemFiltersInput>>>;
+export type ComponentItemRestaurantFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ComponentItemRestaurantFiltersInput>>>;
+  not?: InputMaybe<ComponentItemRestaurantFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ComponentItemRestaurantFiltersInput>>>;
+  price?: InputMaybe<FloatFilterInput>;
+  restaurant?: InputMaybe<RestaurantFiltersInput>;
 };
 
-export type ComponentMenuSide = {
-  __typename?: 'ComponentMenuSide';
+export type ComponentItemRestaurantInput = {
+  id?: InputMaybe<Scalars['ID']>;
+  price?: InputMaybe<Scalars['Float']>;
+  restaurant?: InputMaybe<Scalars['ID']>;
+};
+
+export type ComponentRestaurantPostalCode = {
+  __typename?: 'ComponentRestaurantPostalCode';
   id: Scalars['ID'];
-  items?: Maybe<Array<Maybe<ComponentMenuSideItem>>>;
+  key: Scalars['Int'];
 };
 
-
-export type ComponentMenuSideItemsArgs = {
-  filters?: InputMaybe<ComponentMenuSideItemFiltersInput>;
-  pagination?: InputMaybe<PaginationArg>;
-  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+export type ComponentRestaurantPostalCodeFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ComponentRestaurantPostalCodeFiltersInput>>>;
+  key?: InputMaybe<IntFilterInput>;
+  not?: InputMaybe<ComponentRestaurantPostalCodeFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ComponentRestaurantPostalCodeFiltersInput>>>;
 };
 
-export type ComponentMenuSideItem = {
-  __typename?: 'ComponentMenuSideItem';
-  id: Scalars['ID'];
-  side?: Maybe<SideEntityResponse>;
-};
-
-export type ComponentMenuSideItemFiltersInput = {
-  and?: InputMaybe<Array<InputMaybe<ComponentMenuSideItemFiltersInput>>>;
-  not?: InputMaybe<ComponentMenuSideItemFiltersInput>;
-  or?: InputMaybe<Array<InputMaybe<ComponentMenuSideItemFiltersInput>>>;
-  side?: InputMaybe<SideFiltersInput>;
+export type ComponentRestaurantPostalCodeInput = {
+  id?: InputMaybe<Scalars['ID']>;
+  key?: InputMaybe<Scalars['Int']>;
 };
 
 export type ComponentRestaurantSchedule = {
@@ -333,6 +399,103 @@ export type ComponentRestaurantScheduleDaysArgs = {
   filters?: InputMaybe<DayFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type ComponentRestaurantScheduleFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ComponentRestaurantScheduleFiltersInput>>>;
+  closing?: InputMaybe<TimeFilterInput>;
+  days?: InputMaybe<DayFiltersInput>;
+  not?: InputMaybe<ComponentRestaurantScheduleFiltersInput>;
+  opening?: InputMaybe<TimeFilterInput>;
+  or?: InputMaybe<Array<InputMaybe<ComponentRestaurantScheduleFiltersInput>>>;
+};
+
+export type ComponentRestaurantScheduleInput = {
+  closing?: InputMaybe<Scalars['Time']>;
+  days?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  id?: InputMaybe<Scalars['ID']>;
+  opening?: InputMaybe<Scalars['Time']>;
+};
+
+export type ComponentSaladRestaurant = {
+  __typename?: 'ComponentSaladRestaurant';
+  available: Scalars['Boolean'];
+  id: Scalars['ID'];
+  price: Scalars['Float'];
+  restaurant?: Maybe<RestaurantEntityResponse>;
+};
+
+export type ComponentSaladRestaurantFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ComponentSaladRestaurantFiltersInput>>>;
+  available?: InputMaybe<BooleanFilterInput>;
+  not?: InputMaybe<ComponentSaladRestaurantFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ComponentSaladRestaurantFiltersInput>>>;
+  price?: InputMaybe<FloatFilterInput>;
+  restaurant?: InputMaybe<RestaurantFiltersInput>;
+};
+
+export type ComponentSaladRestaurantInput = {
+  available?: InputMaybe<Scalars['Boolean']>;
+  id?: InputMaybe<Scalars['ID']>;
+  price?: InputMaybe<Scalars['Float']>;
+  restaurant?: InputMaybe<Scalars['ID']>;
+};
+
+export type ComponentSandwichRestaurants = {
+  __typename?: 'ComponentSandwichRestaurants';
+  available: Scalars['Boolean'];
+  beverage?: Maybe<OptionEntityResponse>;
+  bread?: Maybe<OptionEntityResponse>;
+  id: Scalars['ID'];
+  price: Scalars['Float'];
+  restaurant?: Maybe<RestaurantEntityResponse>;
+  side?: Maybe<OptionEntityResponse>;
+};
+
+export type ComponentSandwichRestaurantsFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ComponentSandwichRestaurantsFiltersInput>>>;
+  available?: InputMaybe<BooleanFilterInput>;
+  beverage?: InputMaybe<OptionFiltersInput>;
+  bread?: InputMaybe<OptionFiltersInput>;
+  not?: InputMaybe<ComponentSandwichRestaurantsFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ComponentSandwichRestaurantsFiltersInput>>>;
+  price?: InputMaybe<FloatFilterInput>;
+  restaurant?: InputMaybe<RestaurantFiltersInput>;
+  side?: InputMaybe<OptionFiltersInput>;
+};
+
+export type ComponentSandwichRestaurantsInput = {
+  available?: InputMaybe<Scalars['Boolean']>;
+  beverage?: InputMaybe<Scalars['ID']>;
+  bread?: InputMaybe<Scalars['ID']>;
+  id?: InputMaybe<Scalars['ID']>;
+  price?: InputMaybe<Scalars['Float']>;
+  restaurant?: InputMaybe<Scalars['ID']>;
+  side?: InputMaybe<Scalars['ID']>;
+};
+
+export type ComponentSideRestaurant = {
+  __typename?: 'ComponentSideRestaurant';
+  available: Scalars['Boolean'];
+  id: Scalars['ID'];
+  price: Scalars['Float'];
+  restaurant?: Maybe<RestaurantEntityResponse>;
+};
+
+export type ComponentSideRestaurantFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ComponentSideRestaurantFiltersInput>>>;
+  available?: InputMaybe<BooleanFilterInput>;
+  not?: InputMaybe<ComponentSideRestaurantFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ComponentSideRestaurantFiltersInput>>>;
+  price?: InputMaybe<FloatFilterInput>;
+  restaurant?: InputMaybe<RestaurantFiltersInput>;
+};
+
+export type ComponentSideRestaurantInput = {
+  available?: InputMaybe<Scalars['Boolean']>;
+  id?: InputMaybe<Scalars['ID']>;
+  price?: InputMaybe<Scalars['Float']>;
+  restaurant?: InputMaybe<Scalars['ID']>;
 };
 
 export type DateTimeFilterInput = {
@@ -410,8 +573,15 @@ export type Dessert = {
   createdAt?: Maybe<Scalars['DateTime']>;
   name: Scalars['String'];
   position: Scalars['Int'];
-  price: Scalars['Float'];
+  restaurant?: Maybe<Array<Maybe<ComponentDessertRestaurant>>>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+
+export type DessertRestaurantArgs = {
+  filters?: InputMaybe<ComponentDessertRestaurantFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 export type DessertEntity = {
@@ -440,7 +610,6 @@ export type DessertFiltersInput = {
   not?: InputMaybe<DessertFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<DessertFiltersInput>>>;
   position?: InputMaybe<IntFilterInput>;
-  price?: InputMaybe<FloatFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
@@ -448,13 +617,7 @@ export type DessertInput = {
   category?: InputMaybe<Scalars['ID']>;
   name?: InputMaybe<Scalars['String']>;
   position?: InputMaybe<Scalars['Int']>;
-  price?: InputMaybe<Scalars['Float']>;
-};
-
-export type Error = {
-  __typename?: 'Error';
-  code: Scalars['String'];
-  message?: Maybe<Scalars['String']>;
+  restaurant?: InputMaybe<Array<InputMaybe<ComponentDessertRestaurantInput>>>;
 };
 
 export type FileInfoInput = {
@@ -486,7 +649,7 @@ export type FloatFilterInput = {
   startsWith?: InputMaybe<Scalars['Float']>;
 };
 
-export type GenericMorph = Beverage | Burger | Category | ComponentBurguerMeats | ComponentBurguerPointCooking | ComponentCommonBread | ComponentMenuBeverage | ComponentMenuBeverateItem | ComponentMenuSide | ComponentMenuSideItem | ComponentRestaurantSchedule | Day | Dessert | I18NLocale | Ingredient | Item | Option | Restaurant | Salad | Sandwich | Side | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser;
+export type GenericMorph = Beverage | Burger | Category | ComponentBeverageRestaurant | ComponentBurguerRestaurant | ComponentDessertRestaurant | ComponentIngredientRestaurant | ComponentItemRestaurant | ComponentRestaurantPostalCode | ComponentRestaurantSchedule | ComponentSaladRestaurant | ComponentSandwichRestaurants | ComponentSideRestaurant | Day | Dessert | I18NLocale | Ingredient | Item | Option | Restaurant | Salad | Sandwich | Side | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser;
 
 export type I18NLocale = {
   __typename?: 'I18NLocale';
@@ -555,17 +718,24 @@ export type Ingredient = {
   inSalad: Scalars['Boolean'];
   inSandwich: Scalars['Boolean'];
   name: Scalars['String'];
-  price?: Maybe<Scalars['Float']>;
+  restaurants?: Maybe<Array<Maybe<ComponentIngredientRestaurant>>>;
   salads?: Maybe<SaladRelationResponseCollection>;
   sandwiches?: Maybe<SandwichRelationResponseCollection>;
-  side?: Maybe<SideEntityResponse>;
-  side_ingredients?: Maybe<SideEntityResponse>;
+  side_ingredients?: Maybe<SideRelationResponseCollection>;
+  sides?: Maybe<SideRelationResponseCollection>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 
 export type IngredientBurgersArgs = {
   filters?: InputMaybe<BurgerFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+
+export type IngredientRestaurantsArgs = {
+  filters?: InputMaybe<ComponentIngredientRestaurantFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
@@ -580,6 +750,21 @@ export type IngredientSaladsArgs = {
 
 export type IngredientSandwichesArgs = {
   filters?: InputMaybe<SandwichFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+
+export type IngredientSide_IngredientsArgs = {
+  filters?: InputMaybe<SideFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+
+export type IngredientSidesArgs = {
+  filters?: InputMaybe<SideFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
@@ -612,11 +797,10 @@ export type IngredientFiltersInput = {
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<IngredientFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<IngredientFiltersInput>>>;
-  price?: InputMaybe<FloatFilterInput>;
   salads?: InputMaybe<SaladFiltersInput>;
   sandwiches?: InputMaybe<SandwichFiltersInput>;
-  side?: InputMaybe<SideFiltersInput>;
   side_ingredients?: InputMaybe<SideFiltersInput>;
+  sides?: InputMaybe<SideFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
@@ -626,11 +810,11 @@ export type IngredientInput = {
   inSalad?: InputMaybe<Scalars['Boolean']>;
   inSandwich?: InputMaybe<Scalars['Boolean']>;
   name?: InputMaybe<Scalars['String']>;
-  price?: InputMaybe<Scalars['Float']>;
+  restaurants?: InputMaybe<Array<InputMaybe<ComponentIngredientRestaurantInput>>>;
   salads?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   sandwiches?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
-  side?: InputMaybe<Scalars['ID']>;
-  side_ingredients?: InputMaybe<Scalars['ID']>;
+  side_ingredients?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  sides?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
 };
 
 export type IngredientRelationResponseCollection = {
@@ -665,7 +849,23 @@ export type Item = {
   __typename?: 'Item';
   createdAt?: Maybe<Scalars['DateTime']>;
   name: Scalars['String'];
+  options?: Maybe<OptionRelationResponseCollection>;
+  restaurant?: Maybe<Array<Maybe<ComponentItemRestaurant>>>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+
+export type ItemOptionsArgs = {
+  filters?: InputMaybe<OptionFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+
+export type ItemRestaurantArgs = {
+  filters?: InputMaybe<ComponentItemRestaurantFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 export type ItemEntity = {
@@ -691,12 +891,15 @@ export type ItemFiltersInput = {
   id?: InputMaybe<IdFilterInput>;
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<ItemFiltersInput>;
+  options?: InputMaybe<OptionFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<ItemFiltersInput>>>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
 export type ItemInput = {
   name?: InputMaybe<Scalars['String']>;
+  options?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  restaurant?: InputMaybe<Array<InputMaybe<ComponentItemRestaurantInput>>>;
 };
 
 export type ItemRelationResponseCollection = {
@@ -737,6 +940,7 @@ export type Mutation = {
   createIngredient?: Maybe<IngredientEntityResponse>;
   createItem?: Maybe<ItemEntityResponse>;
   createOption?: Maybe<OptionEntityResponse>;
+  createRestaurant?: Maybe<RestaurantEntityResponse>;
   createSalad?: Maybe<SaladEntityResponse>;
   createSandwich?: Maybe<SandwichEntityResponse>;
   createSide?: Maybe<SideEntityResponse>;
@@ -835,6 +1039,11 @@ export type MutationCreateOptionArgs = {
 };
 
 
+export type MutationCreateRestaurantArgs = {
+  data: RestaurantInput;
+};
+
+
 export type MutationCreateSaladArgs = {
   data: SaladInput;
 };
@@ -901,6 +1110,11 @@ export type MutationDeleteItemArgs = {
 
 
 export type MutationDeleteOptionArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationDeleteRestaurantArgs = {
   id: Scalars['ID'];
 };
 
@@ -1031,6 +1245,7 @@ export type MutationUpdateOptionArgs = {
 
 export type MutationUpdateRestaurantArgs = {
   data: RestaurantInput;
+  id: Scalars['ID'];
 };
 
 
@@ -1080,13 +1295,34 @@ export type MutationUploadArgs = {
 
 export type Option = {
   __typename?: 'Option';
+  beverages?: Maybe<BeverageRelationResponseCollection>;
   createdAt?: Maybe<Scalars['DateTime']>;
-  elements?: Maybe<Array<Maybe<OptionElementsDynamicZone>>>;
+  items?: Maybe<ItemRelationResponseCollection>;
   name: Scalars['String'];
+  sides?: Maybe<SideRelationResponseCollection>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
-export type OptionElementsDynamicZone = ComponentBurguerMeats | ComponentBurguerPointCooking | ComponentCommonBread | ComponentMenuBeverage | ComponentMenuSide | Error;
+
+export type OptionBeveragesArgs = {
+  filters?: InputMaybe<BeverageFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+
+export type OptionItemsArgs = {
+  filters?: InputMaybe<ItemFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+
+export type OptionSidesArgs = {
+  filters?: InputMaybe<SideFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
 
 export type OptionEntity = {
   __typename?: 'OptionEntity';
@@ -1107,17 +1343,27 @@ export type OptionEntityResponseCollection = {
 
 export type OptionFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<OptionFiltersInput>>>;
+  beverages?: InputMaybe<BeverageFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   id?: InputMaybe<IdFilterInput>;
+  items?: InputMaybe<ItemFiltersInput>;
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<OptionFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<OptionFiltersInput>>>;
+  sides?: InputMaybe<SideFiltersInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
 export type OptionInput = {
-  elements?: InputMaybe<Array<Scalars['OptionElementsDynamicZoneInput']>>;
+  beverages?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  items?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   name?: InputMaybe<Scalars['String']>;
+  sides?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+};
+
+export type OptionRelationResponseCollection = {
+  __typename?: 'OptionRelationResponseCollection';
+  data: Array<OptionEntity>;
 };
 
 export type Pagination = {
@@ -1162,6 +1408,7 @@ export type Query = {
   option?: Maybe<OptionEntityResponse>;
   options?: Maybe<OptionEntityResponseCollection>;
   restaurant?: Maybe<RestaurantEntityResponse>;
+  restaurants?: Maybe<RestaurantEntityResponseCollection>;
   salad?: Maybe<SaladEntityResponse>;
   salads?: Maybe<SaladEntityResponseCollection>;
   sandwich?: Maybe<SandwichEntityResponse>;
@@ -1286,7 +1533,14 @@ export type QueryOptionsArgs = {
 
 
 export type QueryRestaurantArgs = {
-  publicationState?: InputMaybe<PublicationState>;
+  id?: InputMaybe<Scalars['ID']>;
+};
+
+
+export type QueryRestaurantsArgs = {
+  filters?: InputMaybe<RestaurantFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 
@@ -1310,6 +1564,7 @@ export type QuerySandwichArgs = {
 export type QuerySandwichesArgs = {
   filters?: InputMaybe<SandwichFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
+  publicationState?: InputMaybe<PublicationState>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
@@ -1368,12 +1623,29 @@ export type ResponseCollectionMeta = {
 
 export type Restaurant = {
   __typename?: 'Restaurant';
+  address: Scalars['String'];
   createdAt?: Maybe<Scalars['DateTime']>;
-  isClose: Scalars['Boolean'];
-  moreOrders: Scalars['Boolean'];
-  publishedAt?: Maybe<Scalars['DateTime']>;
-  schudule?: Maybe<Array<Maybe<RestaurantSchuduleDynamicZone>>>;
+  isClose?: Maybe<Scalars['Boolean']>;
+  moreOrders?: Maybe<Scalars['Boolean']>;
+  name: Scalars['String'];
+  phone: Scalars['String'];
+  postalCodes?: Maybe<Array<Maybe<ComponentRestaurantPostalCode>>>;
+  schedule?: Maybe<Array<Maybe<ComponentRestaurantSchedule>>>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+
+export type RestaurantPostalCodesArgs = {
+  filters?: InputMaybe<ComponentRestaurantPostalCodeFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+
+export type RestaurantScheduleArgs = {
+  filters?: InputMaybe<ComponentRestaurantScheduleFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
 export type RestaurantEntity = {
@@ -1387,14 +1659,35 @@ export type RestaurantEntityResponse = {
   data?: Maybe<RestaurantEntity>;
 };
 
-export type RestaurantInput = {
-  isClose?: InputMaybe<Scalars['Boolean']>;
-  moreOrders?: InputMaybe<Scalars['Boolean']>;
-  publishedAt?: InputMaybe<Scalars['DateTime']>;
-  schudule?: InputMaybe<Array<Scalars['RestaurantSchuduleDynamicZoneInput']>>;
+export type RestaurantEntityResponseCollection = {
+  __typename?: 'RestaurantEntityResponseCollection';
+  data: Array<RestaurantEntity>;
+  meta: ResponseCollectionMeta;
 };
 
-export type RestaurantSchuduleDynamicZone = ComponentRestaurantSchedule | Error;
+export type RestaurantFiltersInput = {
+  address?: InputMaybe<StringFilterInput>;
+  and?: InputMaybe<Array<InputMaybe<RestaurantFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  isClose?: InputMaybe<BooleanFilterInput>;
+  moreOrders?: InputMaybe<BooleanFilterInput>;
+  name?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<RestaurantFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<RestaurantFiltersInput>>>;
+  phone?: InputMaybe<StringFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type RestaurantInput = {
+  address?: InputMaybe<Scalars['String']>;
+  isClose?: InputMaybe<Scalars['Boolean']>;
+  moreOrders?: InputMaybe<Scalars['Boolean']>;
+  name?: InputMaybe<Scalars['String']>;
+  phone?: InputMaybe<Scalars['String']>;
+  postalCodes?: InputMaybe<Array<InputMaybe<ComponentRestaurantPostalCodeInput>>>;
+  schedule?: InputMaybe<Array<InputMaybe<ComponentRestaurantScheduleInput>>>;
+};
 
 export type Salad = {
   __typename?: 'Salad';
@@ -1404,13 +1697,20 @@ export type Salad = {
   ingredients?: Maybe<IngredientRelationResponseCollection>;
   name: Scalars['String'];
   position: Scalars['Int'];
-  price: Scalars['Float'];
+  restaurant?: Maybe<Array<Maybe<ComponentSaladRestaurant>>>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 
 export type SaladIngredientsArgs = {
   filters?: InputMaybe<IngredientFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+
+export type SaladRestaurantArgs = {
+  filters?: InputMaybe<ComponentSaladRestaurantFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
@@ -1443,7 +1743,6 @@ export type SaladFiltersInput = {
   not?: InputMaybe<SaladFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<SaladFiltersInput>>>;
   position?: InputMaybe<IntFilterInput>;
-  price?: InputMaybe<FloatFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
@@ -1453,7 +1752,7 @@ export type SaladInput = {
   ingredients?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   name?: InputMaybe<Scalars['String']>;
   position?: InputMaybe<Scalars['Int']>;
-  price?: InputMaybe<Scalars['Float']>;
+  restaurant?: InputMaybe<Array<InputMaybe<ComponentSaladRestaurantInput>>>;
 };
 
 export type SaladRelationResponseCollection = {
@@ -1463,23 +1762,27 @@ export type SaladRelationResponseCollection = {
 
 export type Sandwich = {
   __typename?: 'Sandwich';
-  beverage?: Maybe<OptionEntityResponse>;
-  bread?: Maybe<OptionEntityResponse>;
   category?: Maybe<CategoryEntityResponse>;
   createdAt?: Maybe<Scalars['DateTime']>;
   description?: Maybe<Scalars['String']>;
   ingredients?: Maybe<IngredientRelationResponseCollection>;
-  isYourTaste?: Maybe<Scalars['Boolean']>;
   name?: Maybe<Scalars['String']>;
   position: Scalars['Int'];
-  price: Scalars['Float'];
-  side?: Maybe<OptionEntityResponse>;
+  publishedAt?: Maybe<Scalars['DateTime']>;
+  restaurants?: Maybe<Array<Maybe<ComponentSandwichRestaurants>>>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 
 export type SandwichIngredientsArgs = {
   filters?: InputMaybe<IngredientFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+
+export type SandwichRestaurantsArgs = {
+  filters?: InputMaybe<ComponentSandwichRestaurantsFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
@@ -1503,34 +1806,27 @@ export type SandwichEntityResponseCollection = {
 
 export type SandwichFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<SandwichFiltersInput>>>;
-  beverage?: InputMaybe<OptionFiltersInput>;
-  bread?: InputMaybe<OptionFiltersInput>;
   category?: InputMaybe<CategoryFiltersInput>;
   createdAt?: InputMaybe<DateTimeFilterInput>;
   description?: InputMaybe<StringFilterInput>;
   id?: InputMaybe<IdFilterInput>;
   ingredients?: InputMaybe<IngredientFiltersInput>;
-  isYourTaste?: InputMaybe<BooleanFilterInput>;
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<SandwichFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<SandwichFiltersInput>>>;
   position?: InputMaybe<IntFilterInput>;
-  price?: InputMaybe<FloatFilterInput>;
-  side?: InputMaybe<OptionFiltersInput>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
 };
 
 export type SandwichInput = {
-  beverage?: InputMaybe<Scalars['ID']>;
-  bread?: InputMaybe<Scalars['ID']>;
   category?: InputMaybe<Scalars['ID']>;
   description?: InputMaybe<Scalars['String']>;
   ingredients?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
-  isYourTaste?: InputMaybe<Scalars['Boolean']>;
   name?: InputMaybe<Scalars['String']>;
   position?: InputMaybe<Scalars['Int']>;
-  price?: InputMaybe<Scalars['Float']>;
-  side?: InputMaybe<Scalars['ID']>;
+  publishedAt?: InputMaybe<Scalars['DateTime']>;
+  restaurants?: InputMaybe<Array<InputMaybe<ComponentSandwichRestaurantsInput>>>;
 };
 
 export type SandwichRelationResponseCollection = {
@@ -1547,8 +1843,9 @@ export type Side = {
   isCustomizable?: Maybe<Scalars['Boolean']>;
   isSauce?: Maybe<Scalars['Boolean']>;
   name?: Maybe<Scalars['String']>;
+  options?: Maybe<OptionRelationResponseCollection>;
   position?: Maybe<Scalars['Int']>;
-  price?: Maybe<Scalars['Float']>;
+  restaurant?: Maybe<Array<Maybe<ComponentSideRestaurant>>>;
   sauces?: Maybe<IngredientRelationResponseCollection>;
   selectOneOption?: Maybe<Scalars['Boolean']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
@@ -1557,6 +1854,20 @@ export type Side = {
 
 export type SideIngredientsArgs = {
   filters?: InputMaybe<IngredientFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+
+export type SideOptionsArgs = {
+  filters?: InputMaybe<OptionFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+
+export type SideRestaurantArgs = {
+  filters?: InputMaybe<ComponentSideRestaurantFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
@@ -1596,9 +1907,9 @@ export type SideFiltersInput = {
   isSauce?: InputMaybe<BooleanFilterInput>;
   name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<SideFiltersInput>;
+  options?: InputMaybe<OptionFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<SideFiltersInput>>>;
   position?: InputMaybe<IntFilterInput>;
-  price?: InputMaybe<FloatFilterInput>;
   sauces?: InputMaybe<IngredientFiltersInput>;
   selectOneOption?: InputMaybe<BooleanFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
@@ -1611,10 +1922,16 @@ export type SideInput = {
   isCustomizable?: InputMaybe<Scalars['Boolean']>;
   isSauce?: InputMaybe<Scalars['Boolean']>;
   name?: InputMaybe<Scalars['String']>;
+  options?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   position?: InputMaybe<Scalars['Int']>;
-  price?: InputMaybe<Scalars['Float']>;
+  restaurant?: InputMaybe<Array<InputMaybe<ComponentSideRestaurantInput>>>;
   sauces?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
   selectOneOption?: InputMaybe<Scalars['Boolean']>;
+};
+
+export type SideRelationResponseCollection = {
+  __typename?: 'SideRelationResponseCollection';
+  data: Array<SideEntity>;
 };
 
 export type StringFilterInput = {
@@ -1638,6 +1955,29 @@ export type StringFilterInput = {
   null?: InputMaybe<Scalars['Boolean']>;
   or?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   startsWith?: InputMaybe<Scalars['String']>;
+};
+
+export type TimeFilterInput = {
+  and?: InputMaybe<Array<InputMaybe<Scalars['Time']>>>;
+  between?: InputMaybe<Array<InputMaybe<Scalars['Time']>>>;
+  contains?: InputMaybe<Scalars['Time']>;
+  containsi?: InputMaybe<Scalars['Time']>;
+  endsWith?: InputMaybe<Scalars['Time']>;
+  eq?: InputMaybe<Scalars['Time']>;
+  gt?: InputMaybe<Scalars['Time']>;
+  gte?: InputMaybe<Scalars['Time']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['Time']>>>;
+  lt?: InputMaybe<Scalars['Time']>;
+  lte?: InputMaybe<Scalars['Time']>;
+  ne?: InputMaybe<Scalars['Time']>;
+  not?: InputMaybe<TimeFilterInput>;
+  notContains?: InputMaybe<Scalars['Time']>;
+  notContainsi?: InputMaybe<Scalars['Time']>;
+  notIn?: InputMaybe<Array<InputMaybe<Scalars['Time']>>>;
+  notNull?: InputMaybe<Scalars['Boolean']>;
+  null?: InputMaybe<Scalars['Boolean']>;
+  or?: InputMaybe<Array<InputMaybe<Scalars['Time']>>>;
+  startsWith?: InputMaybe<Scalars['Time']>;
 };
 
 export type UploadFile = {

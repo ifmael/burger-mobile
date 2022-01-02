@@ -31,8 +31,8 @@ export default ({ config }: { config: ExpoConfig }) => {
                 production: process.env.EXPO_PRODUCTION_SERVER,
             },
             secret: {
-                development: process.env.EXPO_JWT_SECRET_DEVELOPMENT,
-                production: process.env.EXPO_JWT_SECRET_DEVELOPMENT,
+                local: process.env.EXPO_API_TOKEN,
+                production: process.env.EXPO_API_TOKEN,
             },
             // mapsToken: process.env.GOOGLE_MAPS_KEY,
             // placesToken: process.env.PLACES_API,

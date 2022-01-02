@@ -6,9 +6,10 @@ directive @specifiedBy(
 
 type Beverage {
   name: String!
-  price: Float!
   category: CategoryEntityResponse
   position: Int!
+  restaurant(filters: ComponentBeverageRestaurantFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): [ComponentBeverageRestaurant]
+  options(filters: OptionFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): OptionRelationResponseCollection
   createdAt: DateTime
   updatedAt: DateTime
 }
@@ -30,9 +31,9 @@ type BeverageEntityResponseCollection {
 input BeverageFiltersInput {
   id: IDFilterInput
   name: StringFilterInput
-  price: FloatFilterInput
   category: CategoryFiltersInput
   position: IntFilterInput
+  options: OptionFiltersInput
   createdAt: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
   and: [BeverageFiltersInput]
@@ -42,9 +43,14 @@ input BeverageFiltersInput {
 
 input BeverageInput {
   name: String
-  price: Float
   category: ID
   position: Int
+  restaurant: [ComponentBeverageRestaurantInput]
+  options: [ID]
+}
+
+type BeverageRelationResponseCollection {
+  data: [BeverageEntity!]!
 }
 
 input BooleanFilterInput {
@@ -72,18 +78,13 @@ input BooleanFilterInput {
 
 type Burger {
   name: String!
-  price: Float!
   position: Int!
   category: CategoryEntityResponse
   isYourTaste: Boolean
   isChildrenMenu: Boolean
   ingredients(filters: IngredientFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): IngredientRelationResponseCollection
   description: String
-  beverage: OptionEntityResponse
-  side: OptionEntityResponse
-  meat: OptionEntityResponse
-  meatPoint: OptionEntityResponse
-  bread: OptionEntityResponse
+  restaurants(filters: ComponentBurguerRestaurantFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): [ComponentBurguerRestaurant]
   createdAt: DateTime
   updatedAt: DateTime
 }
@@ -105,18 +106,12 @@ type BurgerEntityResponseCollection {
 input BurgerFiltersInput {
   id: IDFilterInput
   name: StringFilterInput
-  price: FloatFilterInput
   position: IntFilterInput
   category: CategoryFiltersInput
   isYourTaste: BooleanFilterInput
   isChildrenMenu: BooleanFilterInput
   ingredients: IngredientFiltersInput
   description: StringFilterInput
-  beverage: OptionFiltersInput
-  side: OptionFiltersInput
-  meat: OptionFiltersInput
-  meatPoint: OptionFiltersInput
-  bread: OptionFiltersInput
   createdAt: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
   and: [BurgerFiltersInput]
@@ -126,18 +121,13 @@ input BurgerFiltersInput {
 
 input BurgerInput {
   name: String
-  price: Float
   position: Int
   category: ID
   isYourTaste: Boolean
   isChildrenMenu: Boolean
   ingredients: [ID]
   description: String
-  beverage: ID
-  side: ID
-  meat: ID
-  meatPoint: ID
-  bread: ID
+  restaurants: [ComponentBurguerRestaurantInput]
 }
 
 type BurgerRelationResponseCollection {
@@ -186,53 +176,145 @@ input CategoryInput {
   asset: String
 }
 
-type ComponentBurguerMeats {
+type ComponentBeverageRestaurant {
   id: ID!
-  ingredients(filters: IngredientFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): IngredientRelationResponseCollection
+  restaurant: RestaurantEntityResponse
+  price: Float!
+  available: Boolean!
 }
 
-type ComponentBurguerPointCooking {
+input ComponentBeverageRestaurantFiltersInput {
+  restaurant: RestaurantFiltersInput
+  price: FloatFilterInput
+  available: BooleanFilterInput
+  and: [ComponentBeverageRestaurantFiltersInput]
+  or: [ComponentBeverageRestaurantFiltersInput]
+  not: ComponentBeverageRestaurantFiltersInput
+}
+
+input ComponentBeverageRestaurantInput {
+  id: ID
+  restaurant: ID
+  price: Float
+  available: Boolean
+}
+
+type ComponentBurguerRestaurant {
   id: ID!
-  data(filters: ItemFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): ItemRelationResponseCollection
+  restaurant: RestaurantEntityResponse
+  price: Float!
+  meat: OptionEntityResponse
+  meatPoint: OptionEntityResponse
+  bread: OptionEntityResponse
+  beverage: OptionEntityResponse
+  sides: OptionEntityResponse
+  available: Boolean!
 }
 
-type ComponentCommonBread {
+input ComponentBurguerRestaurantFiltersInput {
+  restaurant: RestaurantFiltersInput
+  price: FloatFilterInput
+  meat: OptionFiltersInput
+  meatPoint: OptionFiltersInput
+  bread: OptionFiltersInput
+  beverage: OptionFiltersInput
+  sides: OptionFiltersInput
+  available: BooleanFilterInput
+  and: [ComponentBurguerRestaurantFiltersInput]
+  or: [ComponentBurguerRestaurantFiltersInput]
+  not: ComponentBurguerRestaurantFiltersInput
+}
+
+input ComponentBurguerRestaurantInput {
+  id: ID
+  restaurant: ID
+  price: Float
+  meat: ID
+  meatPoint: ID
+  bread: ID
+  beverage: ID
+  sides: ID
+  available: Boolean
+}
+
+type ComponentDessertRestaurant {
   id: ID!
-  data(filters: ItemFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): ItemRelationResponseCollection
+  restaurant: RestaurantEntityResponse
+  price: Float!
+  available: Boolean!
 }
 
-type ComponentMenuBeverage {
+input ComponentDessertRestaurantFiltersInput {
+  restaurant: RestaurantFiltersInput
+  price: FloatFilterInput
+  available: BooleanFilterInput
+  and: [ComponentDessertRestaurantFiltersInput]
+  or: [ComponentDessertRestaurantFiltersInput]
+  not: ComponentDessertRestaurantFiltersInput
+}
+
+input ComponentDessertRestaurantInput {
+  id: ID
+  restaurant: ID
+  price: Float
+  available: Boolean
+}
+
+type ComponentIngredientRestaurant {
   id: ID!
-  items(filters: ComponentMenuBeverateItemFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): [ComponentMenuBeverateItem]
+  restaurant: RestaurantEntityResponse
+  price: Float!
 }
 
-type ComponentMenuBeverateItem {
+input ComponentIngredientRestaurantFiltersInput {
+  restaurant: RestaurantFiltersInput
+  price: FloatFilterInput
+  and: [ComponentIngredientRestaurantFiltersInput]
+  or: [ComponentIngredientRestaurantFiltersInput]
+  not: ComponentIngredientRestaurantFiltersInput
+}
+
+input ComponentIngredientRestaurantInput {
+  id: ID
+  restaurant: ID
+  price: Float
+}
+
+type ComponentItemRestaurant {
   id: ID!
-  beverage: BeverageEntityResponse
+  restaurant: RestaurantEntityResponse
+  price: Float!
 }
 
-input ComponentMenuBeverateItemFiltersInput {
-  beverage: BeverageFiltersInput
-  and: [ComponentMenuBeverateItemFiltersInput]
-  or: [ComponentMenuBeverateItemFiltersInput]
-  not: ComponentMenuBeverateItemFiltersInput
+input ComponentItemRestaurantFiltersInput {
+  restaurant: RestaurantFiltersInput
+  price: FloatFilterInput
+  and: [ComponentItemRestaurantFiltersInput]
+  or: [ComponentItemRestaurantFiltersInput]
+  not: ComponentItemRestaurantFiltersInput
 }
 
-type ComponentMenuSide {
+input ComponentItemRestaurantInput {
+  id: ID
+  restaurant: ID
+  price: Float
+}
+
+type ComponentRestaurantPostalCode {
   id: ID!
-  items(filters: ComponentMenuSideItemFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): [ComponentMenuSideItem]
+  key: Int!
 }
 
-type ComponentMenuSideItem {
-  id: ID!
-  side: SideEntityResponse
+input ComponentRestaurantPostalCodeFiltersInput {
+  key: IntFilterInput
+  and: [ComponentRestaurantPostalCodeFiltersInput]
+  or: [ComponentRestaurantPostalCodeFiltersInput]
+  not: ComponentRestaurantPostalCodeFiltersInput
 }
 
-input ComponentMenuSideItemFiltersInput {
-  side: SideFiltersInput
-  and: [ComponentMenuSideItemFiltersInput]
-  or: [ComponentMenuSideItemFiltersInput]
-  not: ComponentMenuSideItemFiltersInput
+input ComponentRestaurantPostalCodeInput {
+  id: ID
+  key: Int
 }
 
 type ComponentRestaurantSchedule {
@@ -240,6 +322,100 @@ type ComponentRestaurantSchedule {
   opening: Time!
   closing: Time!
   days(filters: DayFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): DayRelationResponseCollection
+}
+
+input ComponentRestaurantScheduleFiltersInput {
+  opening: TimeFilterInput
+  closing: TimeFilterInput
+  days: DayFiltersInput
+  and: [ComponentRestaurantScheduleFiltersInput]
+  or: [ComponentRestaurantScheduleFiltersInput]
+  not: ComponentRestaurantScheduleFiltersInput
+}
+
+input ComponentRestaurantScheduleInput {
+  id: ID
+  opening: Time
+  closing: Time
+  days: [ID]
+}
+
+type ComponentSaladRestaurant {
+  id: ID!
+  restaurant: RestaurantEntityResponse
+  price: Float!
+  available: Boolean!
+}
+
+input ComponentSaladRestaurantFiltersInput {
+  restaurant: RestaurantFiltersInput
+  price: FloatFilterInput
+  available: BooleanFilterInput
+  and: [ComponentSaladRestaurantFiltersInput]
+  or: [ComponentSaladRestaurantFiltersInput]
+  not: ComponentSaladRestaurantFiltersInput
+}
+
+input ComponentSaladRestaurantInput {
+  id: ID
+  restaurant: ID
+  price: Float
+  available: Boolean
+}
+
+type ComponentSandwichRestaurants {
+  id: ID!
+  restaurant: RestaurantEntityResponse
+  bread: OptionEntityResponse
+  price: Float!
+  beverage: OptionEntityResponse
+  side: OptionEntityResponse
+  available: Boolean!
+}
+
+input ComponentSandwichRestaurantsFiltersInput {
+  restaurant: RestaurantFiltersInput
+  bread: OptionFiltersInput
+  price: FloatFilterInput
+  beverage: OptionFiltersInput
+  side: OptionFiltersInput
+  available: BooleanFilterInput
+  and: [ComponentSandwichRestaurantsFiltersInput]
+  or: [ComponentSandwichRestaurantsFiltersInput]
+  not: ComponentSandwichRestaurantsFiltersInput
+}
+
+input ComponentSandwichRestaurantsInput {
+  id: ID
+  restaurant: ID
+  bread: ID
+  price: Float
+  beverage: ID
+  side: ID
+  available: Boolean
+}
+
+type ComponentSideRestaurant {
+  id: ID!
+  restaurant: RestaurantEntityResponse
+  price: Float!
+  available: Boolean!
+}
+
+input ComponentSideRestaurantFiltersInput {
+  restaurant: RestaurantFiltersInput
+  price: FloatFilterInput
+  available: BooleanFilterInput
+  and: [ComponentSideRestaurantFiltersInput]
+  or: [ComponentSideRestaurantFiltersInput]
+  not: ComponentSideRestaurantFiltersInput
+}
+
+input ComponentSideRestaurantInput {
+  id: ID
+  restaurant: ID
+  price: Float
+  available: Boolean
 }
 
 """
@@ -315,9 +491,9 @@ type DayRelationResponseCollection {
 
 type Dessert {
   name: String!
-  price: Float!
   position: Int!
   category: CategoryEntityResponse
+  restaurant(filters: ComponentDessertRestaurantFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): [ComponentDessertRestaurant]
   createdAt: DateTime
   updatedAt: DateTime
 }
@@ -339,7 +515,6 @@ type DessertEntityResponseCollection {
 input DessertFiltersInput {
   id: IDFilterInput
   name: StringFilterInput
-  price: FloatFilterInput
   position: IntFilterInput
   category: CategoryFiltersInput
   createdAt: DateTimeFilterInput
@@ -351,14 +526,9 @@ input DessertFiltersInput {
 
 input DessertInput {
   name: String
-  price: Float
   position: Int
   category: ID
-}
-
-type Error {
-  code: String!
-  message: String
+  restaurant: [ComponentDessertRestaurantInput]
 }
 
 input FileInfoInput {
@@ -390,7 +560,7 @@ input FloatFilterInput {
   between: [Float]
 }
 
-union GenericMorph = ComponentBurguerMeats | ComponentBurguerPointCooking | ComponentCommonBread | ComponentMenuBeverage | ComponentMenuBeverateItem | ComponentMenuSideItem | ComponentMenuSide | ComponentRestaurantSchedule | UploadFile | I18NLocale | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser | Beverage | Burger | Category | Day | Dessert | Ingredient | Item | Option | Restaurant | Salad | Sandwich | Side
+union GenericMorph = ComponentBeverageRestaurant | ComponentBurguerRestaurant | ComponentDessertRestaurant | ComponentIngredientRestaurant | ComponentItemRestaurant | ComponentRestaurantPostalCode | ComponentRestaurantSchedule | ComponentSaladRestaurant | ComponentSandwichRestaurants | ComponentSideRestaurant | UploadFile | I18NLocale | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser | Beverage | Burger | Category | Day | Dessert | Ingredient | Item | Option | Restaurant | Salad | Sandwich | Side
 
 type I18NLocale {
   name: String
@@ -449,15 +619,15 @@ input IDFilterInput {
 
 type Ingredient {
   name: String!
-  price: Float
   inBurger: Boolean!
   inSandwich: Boolean!
   inSalad: Boolean!
-  side: SideEntityResponse
-  side_ingredients: SideEntityResponse
   burgers(filters: BurgerFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): BurgerRelationResponseCollection
-  sandwiches(filters: SandwichFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): SandwichRelationResponseCollection
+  sandwiches(filters: SandwichFiltersInput, pagination: PaginationArg = {}, sort: [String] = [], publicationState: PublicationState = LIVE): SandwichRelationResponseCollection
   salads(filters: SaladFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): SaladRelationResponseCollection
+  restaurants(filters: ComponentIngredientRestaurantFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): [ComponentIngredientRestaurant]
+  sides(filters: SideFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): SideRelationResponseCollection
+  side_ingredients(filters: SideFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): SideRelationResponseCollection
   createdAt: DateTime
   updatedAt: DateTime
 }
@@ -479,15 +649,14 @@ type IngredientEntityResponseCollection {
 input IngredientFiltersInput {
   id: IDFilterInput
   name: StringFilterInput
-  price: FloatFilterInput
   inBurger: BooleanFilterInput
   inSandwich: BooleanFilterInput
   inSalad: BooleanFilterInput
-  side: SideFiltersInput
-  side_ingredients: SideFiltersInput
   burgers: BurgerFiltersInput
   sandwiches: SandwichFiltersInput
   salads: SaladFiltersInput
+  sides: SideFiltersInput
+  side_ingredients: SideFiltersInput
   createdAt: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
   and: [IngredientFiltersInput]
@@ -497,15 +666,15 @@ input IngredientFiltersInput {
 
 input IngredientInput {
   name: String
-  price: Float
   inBurger: Boolean
   inSandwich: Boolean
   inSalad: Boolean
-  side: ID
-  side_ingredients: ID
   burgers: [ID]
   sandwiches: [ID]
   salads: [ID]
+  restaurants: [ComponentIngredientRestaurantInput]
+  sides: [ID]
+  side_ingredients: [ID]
 }
 
 type IngredientRelationResponseCollection {
@@ -537,6 +706,8 @@ input IntFilterInput {
 
 type Item {
   name: String!
+  restaurant(filters: ComponentItemRestaurantFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): [ComponentItemRestaurant]
+  options(filters: OptionFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): OptionRelationResponseCollection
   createdAt: DateTime
   updatedAt: DateTime
 }
@@ -558,6 +729,7 @@ type ItemEntityResponseCollection {
 input ItemFiltersInput {
   id: IDFilterInput
   name: StringFilterInput
+  options: OptionFiltersInput
   createdAt: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
   and: [ItemFiltersInput]
@@ -567,6 +739,8 @@ input ItemFiltersInput {
 
 input ItemInput {
   name: String
+  restaurant: [ComponentItemRestaurantInput]
+  options: [ID]
 }
 
 type ItemRelationResponseCollection {
@@ -629,8 +803,9 @@ type Mutation {
   createOption(data: OptionInput!): OptionEntityResponse
   updateOption(id: ID!, data: OptionInput!): OptionEntityResponse
   deleteOption(id: ID!): OptionEntityResponse
-  updateRestaurant(data: RestaurantInput!): RestaurantEntityResponse
-  deleteRestaurant: RestaurantEntityResponse
+  createRestaurant(data: RestaurantInput!): RestaurantEntityResponse
+  updateRestaurant(id: ID!, data: RestaurantInput!): RestaurantEntityResponse
+  deleteRestaurant(id: ID!): RestaurantEntityResponse
   createSalad(data: SaladInput!): SaladEntityResponse
   updateSalad(id: ID!, data: SaladInput!): SaladEntityResponse
   deleteSalad(id: ID!): SaladEntityResponse
@@ -680,15 +855,13 @@ type Mutation {
 }
 
 type Option {
-  elements: [OptionElementsDynamicZone]
   name: String!
+  items(filters: ItemFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): ItemRelationResponseCollection
+  beverages(filters: BeverageFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): BeverageRelationResponseCollection
+  sides(filters: SideFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): SideRelationResponseCollection
   createdAt: DateTime
   updatedAt: DateTime
 }
-
-union OptionElementsDynamicZone = ComponentBurguerMeats | ComponentBurguerPointCooking | ComponentCommonBread | ComponentMenuBeverage | ComponentMenuSide | Error
-
-scalar OptionElementsDynamicZoneInput
 
 type OptionEntity {
   id: ID
@@ -707,6 +880,9 @@ type OptionEntityResponseCollection {
 input OptionFiltersInput {
   id: IDFilterInput
   name: StringFilterInput
+  items: ItemFiltersInput
+  beverages: BeverageFiltersInput
+  sides: SideFiltersInput
   createdAt: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
   and: [OptionFiltersInput]
@@ -715,8 +891,14 @@ input OptionFiltersInput {
 }
 
 input OptionInput {
-  elements: [OptionElementsDynamicZoneInput!]
   name: String
+  items: [ID]
+  beverages: [ID]
+  sides: [ID]
+}
+
+type OptionRelationResponseCollection {
+  data: [OptionEntity!]!
 }
 
 type Pagination {
@@ -763,11 +945,12 @@ type Query {
   items(filters: ItemFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): ItemEntityResponseCollection
   option(id: ID): OptionEntityResponse
   options(filters: OptionFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): OptionEntityResponseCollection
-  restaurant(publicationState: PublicationState = LIVE): RestaurantEntityResponse
+  restaurant(id: ID): RestaurantEntityResponse
+  restaurants(filters: RestaurantFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): RestaurantEntityResponseCollection
   salad(id: ID): SaladEntityResponse
   salads(filters: SaladFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): SaladEntityResponseCollection
   sandwich(id: ID): SandwichEntityResponse
-  sandwiches(filters: SandwichFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): SandwichEntityResponseCollection
+  sandwiches(filters: SandwichFiltersInput, pagination: PaginationArg = {}, sort: [String] = [], publicationState: PublicationState = LIVE): SandwichEntityResponseCollection
   side(id: ID): SideEntityResponse
   sides(filters: SideFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): SideEntityResponseCollection
   me: UsersPermissionsMe
@@ -778,12 +961,15 @@ type ResponseCollectionMeta {
 }
 
 type Restaurant {
-  moreOrders: Boolean!
-  isClose: Boolean!
-  schudule: [RestaurantSchuduleDynamicZone]
+  name: String!
+  address: String!
+  phone: String!
+  moreOrders: Boolean
+  isClose: Boolean
+  schedule(filters: ComponentRestaurantScheduleFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): [ComponentRestaurantSchedule]
+  postalCodes(filters: ComponentRestaurantPostalCodeFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): [ComponentRestaurantPostalCode]
   createdAt: DateTime
   updatedAt: DateTime
-  publishedAt: DateTime
 }
 
 type RestaurantEntity {
@@ -795,24 +981,42 @@ type RestaurantEntityResponse {
   data: RestaurantEntity
 }
 
-input RestaurantInput {
-  moreOrders: Boolean
-  isClose: Boolean
-  schudule: [RestaurantSchuduleDynamicZoneInput!]
-  publishedAt: DateTime
+type RestaurantEntityResponseCollection {
+  data: [RestaurantEntity!]!
+  meta: ResponseCollectionMeta!
 }
 
-union RestaurantSchuduleDynamicZone = ComponentRestaurantSchedule | Error
+input RestaurantFiltersInput {
+  id: IDFilterInput
+  name: StringFilterInput
+  address: StringFilterInput
+  phone: StringFilterInput
+  moreOrders: BooleanFilterInput
+  isClose: BooleanFilterInput
+  createdAt: DateTimeFilterInput
+  updatedAt: DateTimeFilterInput
+  and: [RestaurantFiltersInput]
+  or: [RestaurantFiltersInput]
+  not: RestaurantFiltersInput
+}
 
-scalar RestaurantSchuduleDynamicZoneInput
+input RestaurantInput {
+  name: String
+  address: String
+  phone: String
+  moreOrders: Boolean
+  isClose: Boolean
+  schedule: [ComponentRestaurantScheduleInput]
+  postalCodes: [ComponentRestaurantPostalCodeInput]
+}
 
 type Salad {
   name: String!
-  price: Float!
   description: String
   ingredients(filters: IngredientFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): IngredientRelationResponseCollection
   position: Int!
   category: CategoryEntityResponse
+  restaurant(filters: ComponentSaladRestaurantFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): [ComponentSaladRestaurant]
   createdAt: DateTime
   updatedAt: DateTime
 }
@@ -834,7 +1038,6 @@ type SaladEntityResponseCollection {
 input SaladFiltersInput {
   id: IDFilterInput
   name: StringFilterInput
-  price: FloatFilterInput
   description: StringFilterInput
   ingredients: IngredientFiltersInput
   position: IntFilterInput
@@ -848,11 +1051,11 @@ input SaladFiltersInput {
 
 input SaladInput {
   name: String
-  price: Float
   description: String
   ingredients: [ID]
   position: Int
   category: ID
+  restaurant: [ComponentSaladRestaurantInput]
 }
 
 type SaladRelationResponseCollection {
@@ -863,15 +1066,12 @@ type Sandwich {
   name: String
   description: String
   category: CategoryEntityResponse
-  bread: OptionEntityResponse
   ingredients(filters: IngredientFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): IngredientRelationResponseCollection
-  side: OptionEntityResponse
-  beverage: OptionEntityResponse
   position: Int!
-  price: Float!
-  isYourTaste: Boolean
+  restaurants(filters: ComponentSandwichRestaurantsFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): [ComponentSandwichRestaurants]
   createdAt: DateTime
   updatedAt: DateTime
+  publishedAt: DateTime
 }
 
 type SandwichEntity {
@@ -893,15 +1093,11 @@ input SandwichFiltersInput {
   name: StringFilterInput
   description: StringFilterInput
   category: CategoryFiltersInput
-  bread: OptionFiltersInput
   ingredients: IngredientFiltersInput
-  side: OptionFiltersInput
-  beverage: OptionFiltersInput
   position: IntFilterInput
-  price: FloatFilterInput
-  isYourTaste: BooleanFilterInput
   createdAt: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
+  publishedAt: DateTimeFilterInput
   and: [SandwichFiltersInput]
   or: [SandwichFiltersInput]
   not: SandwichFiltersInput
@@ -911,13 +1107,10 @@ input SandwichInput {
   name: String
   description: String
   category: ID
-  bread: ID
   ingredients: [ID]
-  side: ID
-  beverage: ID
   position: Int
-  price: Float
-  isYourTaste: Boolean
+  restaurants: [ComponentSandwichRestaurantsInput]
+  publishedAt: DateTime
 }
 
 type SandwichRelationResponseCollection {
@@ -926,7 +1119,6 @@ type SandwichRelationResponseCollection {
 
 type Side {
   name: String
-  price: Float
   position: Int
   category: CategoryEntityResponse
   isCustomizable: Boolean
@@ -935,6 +1127,8 @@ type Side {
   selectOneOption: Boolean
   description: String
   isSauce: Boolean
+  restaurant(filters: ComponentSideRestaurantFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): [ComponentSideRestaurant]
+  options(filters: OptionFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): OptionRelationResponseCollection
   createdAt: DateTime
   updatedAt: DateTime
 }
@@ -956,7 +1150,6 @@ type SideEntityResponseCollection {
 input SideFiltersInput {
   id: IDFilterInput
   name: StringFilterInput
-  price: FloatFilterInput
   position: IntFilterInput
   category: CategoryFiltersInput
   isCustomizable: BooleanFilterInput
@@ -965,6 +1158,7 @@ input SideFiltersInput {
   selectOneOption: BooleanFilterInput
   description: StringFilterInput
   isSauce: BooleanFilterInput
+  options: OptionFiltersInput
   createdAt: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
   and: [SideFiltersInput]
@@ -974,7 +1168,6 @@ input SideFiltersInput {
 
 input SideInput {
   name: String
-  price: Float
   position: Int
   category: ID
   isCustomizable: Boolean
@@ -983,6 +1176,12 @@ input SideInput {
   selectOneOption: Boolean
   description: String
   isSauce: Boolean
+  restaurant: [ComponentSideRestaurantInput]
+  options: [ID]
+}
+
+type SideRelationResponseCollection {
+  data: [SideEntity!]!
 }
 
 input StringFilterInput {
@@ -1010,6 +1209,29 @@ input StringFilterInput {
 
 """A time string with format HH:mm:ss.SSS"""
 scalar Time
+
+input TimeFilterInput {
+  and: [Time]
+  or: [Time]
+  not: TimeFilterInput
+  eq: Time
+  ne: Time
+  startsWith: Time
+  endsWith: Time
+  contains: Time
+  notContains: Time
+  containsi: Time
+  notContainsi: Time
+  gt: Time
+  gte: Time
+  lt: Time
+  lte: Time
+  null: Boolean
+  notNull: Boolean
+  in: [Time]
+  notIn: [Time]
+  between: [Time]
+}
 
 """The `Upload` scalar type represents a file upload."""
 scalar Upload
