@@ -23,7 +23,5 @@ export default function App() {
                 </SafeAreaView>
             </GlobalProvider>
         </ApolloProvider>
-
-        // </ApolloProvider>
     );
 }

@@ -1,4 +1,4 @@
-export const beverages = `
+query AppData {
     beverages {
         data {
             id
@@ -8,60 +8,73 @@ export const beverages = `
                 restaurant {
                     price
                     available
-                    restaurant{
-                        data{
+                    restaurant {
+                        data {
                             id
                         }
                     }
                 }
             }
         }
-    }`;
-
-export const burgers = `
+    }
     burgers {
         data {
             id
             attributes {
                 name
                 position
-                restaurants{
-                    restaurant{
-                        data{
-                            id
+                ingredients {
+                    data {
+                        id
+                        attributes {
+                            name
+                            inSalad
+                            inBurger
+                            inSandwich
                         }
                     }
-                    meat{
-                        data{
-                            id
-                        }
-                    }
-                    meatPoint{
-                        data{
-                            id
-                        }
-                    }
-                    bread{
-                        data{
-                            id
-                        }
-                    }
-                    beverage{
+                }
+                position
+                isYourTaste
+                isChildrenMenu
+                description
+                restaurants {
+                    price
+                    available
+                    restaurant {
                         data {
                             id
                         }
                     }
-                    sides{
-                        data{
+                    meat {
+                        data {
+                            id
+                        }
+                    }
+                    meatPoint {
+                        data {
+                            id
+                        }
+                    }
+                    bread {
+                        data {
+                            id
+                        }
+                    }
+                    beverage {
+                        data {
+                            id
+                        }
+                    }
+                    sides {
+                        data {
                             id
                         }
                     }
                 }
             }
         }
-    }`;
-
-export const desserts = `
+    }
     desserts {
         data {
             id
@@ -71,42 +84,38 @@ export const desserts = `
                 restaurant {
                     price
                     available
-                    restaurant{
-                    data {
-                        id
+                    restaurant {
+                        data {
+                            id
                         }
                     }
                 }
             }
         }
-    }`;
-
-export const options = `
-    options{
-        data{
+    }
+    options {
+        data {
             id
-            attributes{
+            attributes {
                 name
-                items{
-                    data{
+                items {
+                    data {
                         id
                     }
                 }
-                beverages{
-                    data{
+                beverages {
+                    data {
                         id
                     }
                 }
-                sides{
-                    data{
+                sides {
+                    data {
                         id
                     }
                 }
             }
         }
-	}`;
-
-export const salads = `
+    }
     salads {
         data {
             id
@@ -114,25 +123,29 @@ export const salads = `
                 name
                 position
                 description
-                ingredients{
-                    data{
+                ingredients {
+                    data {
                         id
+                        attributes {
+                            name
+                            inBurger
+                            inSandwich
+                            inSalad
+                        }
                     }
                 }
                 restaurant {
                     price
                     available
-                    restaurant{
-                    data {
-                        id
+                    restaurant {
+                        data {
+                            id
                         }
                     }
                 }
             }
         }
-    }`;
-
-export const sandwiches = `
+    }
     sandwiches {
         data {
             id
@@ -142,23 +155,42 @@ export const sandwiches = `
                 ingredients {
                     data {
                         id
+                        attributes {
+                            name
+                            inBurger
+                            inSandwich
+                            inSalad
+                        }
                     }
                 }
                 position
-                restaurants{
+                restaurants {
                     available
                     price
-                    restaurant{
-                        data{
+                    restaurant {
+                        data {
+                            id
+                        }
+                    }
+                    bread {
+                        data {
+                            id
+                        }
+                    }
+                    beverage {
+                        data {
+                            id
+                        }
+                    }
+                    side {
+                        data {
                             id
                         }
                     }
                 }
             }
         }
-    }`;
-
-export const sides = `
+    }
     sides {
         data {
             id
@@ -168,63 +200,70 @@ export const sides = `
                 position
                 isCustomizable
                 selectOneOption
+                isSauce
                 ingredients {
                     data {
                         id
+                        attributes {
+                            name
+                            inBurger
+                            inSandwich
+                            inSalad
+                        }
                     }
                 }
                 sauces {
                     data {
                         id
+                        attributes {
+                            name
+                            inBurger
+                            inSandwich
+                            inSalad
+                        }
                     }
                 }
-                restaurant{
+                restaurant {
                     price
                     available
-                    restaurant{
-                        data{
+                    restaurant {
+                        data {
                             id
                         }
                     }
                 }
             }
         }
-    }`;
-
-export const ingredients = `
-    ingredients{
-        data{
+    }
+    ingredients {
+        data {
             id
-            attributes{
+            attributes {
                 name
                 inBurger
                 inSandwich
                 inSalad
-                restaurants{
+                restaurants {
                     price
-                    restaurant{
-                        data{
+                    restaurant {
+                        data {
                             id
                         }
                     }
                 }
             }
         }
-    }`;
-
-export const categories = `
+    }
     categories {
-        data{
+        data {
             id
-            attributes{
+            attributes {
                 name
                 position
                 asset
             }
         }
-    }`;
-
-export const restaurants = `
+    }
     restaurants {
         data {
             id
@@ -234,12 +273,12 @@ export const restaurants = `
                 phone
                 moreOrders
                 isClose
-                postalCodes{
+                postalCodes {
                     key
                 }
                 schedule {
                     opening
-                    opening
+                    closing
                     days {
                         data {
                             attributes {
@@ -251,9 +290,7 @@ export const restaurants = `
                 }
             }
         }
-    }`;
-
-export const items = `
+    }
     items {
         data {
             id
@@ -261,6 +298,7 @@ export const items = `
                 name
                 restaurant {
                     price
+                    available
                     restaurant {
                         data {
                             id
@@ -269,4 +307,15 @@ export const items = `
                 }
             }
         }
-    }`;
+    }
+    categories {
+        data {
+            id
+            attributes {
+                name
+                position
+                asset
+            }
+        }
+    }
+}

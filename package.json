@@ -17,7 +17,7 @@
         "release:major": "standard-version -r major",
         "release:simulation": "standard-version --dry-run",
         "download-schema": "get-graphql-schema  http://localhost:1337/graphql  > ./src/graphql/schema.graphql",
-        "codegen": "yarn download-schema && graphql-codegen --config codegen.yml"
+        "codegen": "yarn download-schema & graphql-codegen --config codegen.yml"
     },
     "dependencies": {
         "@apollo/client": "^3.5.6",
@@ -46,72 +46,17 @@
         "react-native-web": "0.17.1",
         "ts-node": "^10.4.0"
     },
-    "eslintConfig": {
-        "env": {
-            "es2021": true,
-            "react-native/react-native": true
-        },
-        "extends": [
-            "airbnb",
-            "airbnb/hooks",
-            "plugin:@typescript-eslint/recommended",
-            "plugin:prettier/recommended",
-            "plugin:react/recommended",
-            "plugin:react/jsx-runtime",
-            "plugin:react-native/all",
-            "prettier",
-            "plugin:import/recommended",
-            "plugin:import/typescript"
-        ],
-        "ignorePatterns": [
-            "./src/graphql/models.tsx",
-            "./codegen.yml"
-        ],
-        "rules": {
-            "prettier/prettier": "error",
-            "@typescript-eslint/ban-ts-comment": "off",
-            "react/function-component-definition": [
-                2,
-                {
-                    "namedComponents": "function-declaration",
-                    "unnamedComponents": "arrow-function"
-                }
-            ],
-            "react/jsx-filename-extension": [
-                2,
-                {
-                    "extensions": [
-                        ".js",
-                        ".jsx",
-                        ".ts",
-                        ".tsx"
-                    ]
-                }
-            ],
-            "react/style-prop-object": 0,
-            "react-native/no-raw-text": 0,
-            "import/extensions": [
-                "error",
-                "never"
-            ]
-        },
-        "parser": "@typescript-eslint/parser",
-        "plugins": [
-            "@typescript-eslint",
-            "prettier",
-            "react",
-            "react-native"
-        ]
-    },
     "devDependencies": {
         "@babel/core": "^7.12.9",
         "@commitlint/cli": "^15.0.0",
         "@commitlint/config-conventional": "^15.0.0",
-        "@graphql-codegen/cli": "2.3.0",
-        "@graphql-codegen/introspection": "2.1.0",
-        "@graphql-codegen/typescript": "2.4.1",
-        "@graphql-codegen/typescript-operations": "^2.2.1",
-        "@graphql-codegen/typescript-react-apollo": "3.2.2",
+        "@graphql-codegen/cli": "2.3.1",
+        "@graphql-codegen/fragment-matcher": "3.2.1",
+        "@graphql-codegen/introspection": "2.1.1",
+        "@graphql-codegen/typescript": "2.4.2",
+        "@graphql-codegen/typescript-graphql-files-modules": "^2.1.1",
+        "@graphql-codegen/typescript-operations": "2.2.2",
+        "@graphql-codegen/typescript-react-apollo": "3.2.3",
         "@types/react": "~17.0.21",
         "@types/react-native": "~0.64.12",
         "@typescript-eslint/eslint-plugin": "^5.8.0",
@@ -133,11 +78,6 @@
         "standard-version": "^9.3.2",
         "standard-version-expo": "^1.0.3",
         "typescript": "~4.3.5"
-    },
-    "prettier": {
-        "printWidth": 120,
-        "endOfLine": "auto",
-        "tabWidth": 4
     },
     "private": true
 }

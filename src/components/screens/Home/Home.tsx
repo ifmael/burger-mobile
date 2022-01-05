@@ -21,8 +21,6 @@ const imageHeight = widthRatioAspect * windowWidth * heightRatioAspect;
 // };
 
 export default function Home() {
-    // const { loading, error, data } = useQuery(FETCH_BURGERS, { fetchPolicy: "no-cache" });
-    // console.log(data);
     return (
         <Center flex={1} bg="white">
             <Image source={logo} w={imageWidth} h={imageHeight} resizeMode="cover" />

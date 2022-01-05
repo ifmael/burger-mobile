@@ -1,9 +1,11 @@
 import { gql } from '@apollo/client';
+import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+const defaultOptions =  {}
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -349,6 +351,7 @@ export type ComponentIngredientRestaurantInput = {
 
 export type ComponentItemRestaurant = {
   __typename?: 'ComponentItemRestaurant';
+  available: Scalars['Boolean'];
   id: Scalars['ID'];
   price: Scalars['Float'];
   restaurant?: Maybe<RestaurantEntityResponse>;
@@ -356,6 +359,7 @@ export type ComponentItemRestaurant = {
 
 export type ComponentItemRestaurantFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<ComponentItemRestaurantFiltersInput>>>;
+  available?: InputMaybe<BooleanFilterInput>;
   not?: InputMaybe<ComponentItemRestaurantFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<ComponentItemRestaurantFiltersInput>>>;
   price?: InputMaybe<FloatFilterInput>;
@@ -363,6 +367,7 @@ export type ComponentItemRestaurantFiltersInput = {
 };
 
 export type ComponentItemRestaurantInput = {
+  available?: InputMaybe<Scalars['Boolean']>;
   id?: InputMaybe<Scalars['ID']>;
   price?: InputMaybe<Scalars['Float']>;
   restaurant?: InputMaybe<Scalars['ID']>;
@@ -1625,8 +1630,8 @@ export type Restaurant = {
   __typename?: 'Restaurant';
   address: Scalars['String'];
   createdAt?: Maybe<Scalars['DateTime']>;
-  isClose?: Maybe<Scalars['Boolean']>;
-  moreOrders?: Maybe<Scalars['Boolean']>;
+  isClose: Scalars['Boolean'];
+  moreOrders: Scalars['Boolean'];
   name: Scalars['String'];
   phone: Scalars['String'];
   postalCodes?: Maybe<Array<Maybe<ComponentRestaurantPostalCode>>>;
@@ -2271,3 +2276,360 @@ export type UsersPermissionsUserRelationResponseCollection = {
   __typename?: 'UsersPermissionsUserRelationResponseCollection';
   data: Array<UsersPermissionsUserEntity>;
 };
+
+export type AppDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AppDataQuery = { __typename?: 'Query', beverages?: { __typename?: 'BeverageEntityResponseCollection', data: Array<{ __typename?: 'BeverageEntity', id?: string | null | undefined, attributes?: { __typename?: 'Beverage', name: string, position: number, restaurant?: Array<{ __typename?: 'ComponentBeverageRestaurant', price: number, available: boolean, restaurant?: { __typename?: 'RestaurantEntityResponse', data?: { __typename?: 'RestaurantEntity', id?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined }> } | null | undefined, burgers?: { __typename?: 'BurgerEntityResponseCollection', data: Array<{ __typename?: 'BurgerEntity', id?: string | null | undefined, attributes?: { __typename?: 'Burger', name: string, position: number, isYourTaste?: boolean | null | undefined, isChildrenMenu?: boolean | null | undefined, description?: string | null | undefined, ingredients?: { __typename?: 'IngredientRelationResponseCollection', data: Array<{ __typename?: 'IngredientEntity', id?: string | null | undefined, attributes?: { __typename?: 'Ingredient', name: string, inSalad: boolean, inBurger: boolean, inSandwich: boolean } | null | undefined }> } | null | undefined, restaurants?: Array<{ __typename?: 'ComponentBurguerRestaurant', price: number, available: boolean, restaurant?: { __typename?: 'RestaurantEntityResponse', data?: { __typename?: 'RestaurantEntity', id?: string | null | undefined } | null | undefined } | null | undefined, meat?: { __typename?: 'OptionEntityResponse', data?: { __typename?: 'OptionEntity', id?: string | null | undefined } | null | undefined } | null | undefined, meatPoint?: { __typename?: 'OptionEntityResponse', data?: { __typename?: 'OptionEntity', id?: string | null | undefined } | null | undefined } | null | undefined, bread?: { __typename?: 'OptionEntityResponse', data?: { __typename?: 'OptionEntity', id?: string | null | undefined } | null | undefined } | null | undefined, beverage?: { __typename?: 'OptionEntityResponse', data?: { __typename?: 'OptionEntity', id?: string | null | undefined } | null | undefined } | null | undefined, sides?: { __typename?: 'OptionEntityResponse', data?: { __typename?: 'OptionEntity', id?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined }> } | null | undefined, desserts?: { __typename?: 'DessertEntityResponseCollection', data: Array<{ __typename?: 'DessertEntity', id?: string | null | undefined, attributes?: { __typename?: 'Dessert', name: string, position: number, restaurant?: Array<{ __typename?: 'ComponentDessertRestaurant', price: number, available: boolean, restaurant?: { __typename?: 'RestaurantEntityResponse', data?: { __typename?: 'RestaurantEntity', id?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined }> } | null | undefined, options?: { __typename?: 'OptionEntityResponseCollection', data: Array<{ __typename?: 'OptionEntity', id?: string | null | undefined, attributes?: { __typename?: 'Option', name: string, items?: { __typename?: 'ItemRelationResponseCollection', data: Array<{ __typename?: 'ItemEntity', id?: string | null | undefined }> } | null | undefined, beverages?: { __typename?: 'BeverageRelationResponseCollection', data: Array<{ __typename?: 'BeverageEntity', id?: string | null | undefined }> } | null | undefined, sides?: { __typename?: 'SideRelationResponseCollection', data: Array<{ __typename?: 'SideEntity', id?: string | null | undefined }> } | null | undefined } | null | undefined }> } | null | undefined, salads?: { __typename?: 'SaladEntityResponseCollection', data: Array<{ __typename?: 'SaladEntity', id?: string | null | undefined, attributes?: { __typename?: 'Salad', name: string, position: number, description?: string | null | undefined, ingredients?: { __typename?: 'IngredientRelationResponseCollection', data: Array<{ __typename?: 'IngredientEntity', id?: string | null | undefined, attributes?: { __typename?: 'Ingredient', name: string, inBurger: boolean, inSandwich: boolean, inSalad: boolean } | null | undefined }> } | null | undefined, restaurant?: Array<{ __typename?: 'ComponentSaladRestaurant', price: number, available: boolean, restaurant?: { __typename?: 'RestaurantEntityResponse', data?: { __typename?: 'RestaurantEntity', id?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined }> } | null | undefined, sandwiches?: { __typename?: 'SandwichEntityResponseCollection', data: Array<{ __typename?: 'SandwichEntity', id?: string | null | undefined, attributes?: { __typename?: 'Sandwich', name?: string | null | undefined, description?: string | null | undefined, position: number, ingredients?: { __typename?: 'IngredientRelationResponseCollection', data: Array<{ __typename?: 'IngredientEntity', id?: string | null | undefined, attributes?: { __typename?: 'Ingredient', name: string, inBurger: boolean, inSandwich: boolean, inSalad: boolean } | null | undefined }> } | null | undefined, restaurants?: Array<{ __typename?: 'ComponentSandwichRestaurants', available: boolean, price: number, restaurant?: { __typename?: 'RestaurantEntityResponse', data?: { __typename?: 'RestaurantEntity', id?: string | null | undefined } | null | undefined } | null | undefined, bread?: { __typename?: 'OptionEntityResponse', data?: { __typename?: 'OptionEntity', id?: string | null | undefined } | null | undefined } | null | undefined, beverage?: { __typename?: 'OptionEntityResponse', data?: { __typename?: 'OptionEntity', id?: string | null | undefined } | null | undefined } | null | undefined, side?: { __typename?: 'OptionEntityResponse', data?: { __typename?: 'OptionEntity', id?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined }> } | null | undefined, sides?: { __typename?: 'SideEntityResponseCollection', data: Array<{ __typename?: 'SideEntity', id?: string | null | undefined, attributes?: { __typename?: 'Side', name?: string | null | undefined, description?: string | null | undefined, position?: number | null | undefined, isCustomizable?: boolean | null | undefined, selectOneOption?: boolean | null | undefined, isSauce?: boolean | null | undefined, ingredients?: { __typename?: 'IngredientRelationResponseCollection', data: Array<{ __typename?: 'IngredientEntity', id?: string | null | undefined, attributes?: { __typename?: 'Ingredient', name: string, inBurger: boolean, inSandwich: boolean, inSalad: boolean } | null | undefined }> } | null | undefined, sauces?: { __typename?: 'IngredientRelationResponseCollection', data: Array<{ __typename?: 'IngredientEntity', id?: string | null | undefined, attributes?: { __typename?: 'Ingredient', name: string, inBurger: boolean, inSandwich: boolean, inSalad: boolean } | null | undefined }> } | null | undefined, restaurant?: Array<{ __typename?: 'ComponentSideRestaurant', price: number, available: boolean, restaurant?: { __typename?: 'RestaurantEntityResponse', data?: { __typename?: 'RestaurantEntity', id?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined }> } | null | undefined, ingredients?: { __typename?: 'IngredientEntityResponseCollection', data: Array<{ __typename?: 'IngredientEntity', id?: string | null | undefined, attributes?: { __typename?: 'Ingredient', name: string, inBurger: boolean, inSandwich: boolean, inSalad: boolean, restaurants?: Array<{ __typename?: 'ComponentIngredientRestaurant', price: number, restaurant?: { __typename?: 'RestaurantEntityResponse', data?: { __typename?: 'RestaurantEntity', id?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined }> } | null | undefined, categories?: { __typename?: 'CategoryEntityResponseCollection', data: Array<{ __typename?: 'CategoryEntity', id?: string | null | undefined, attributes?: { __typename?: 'Category', name: string, position: number, asset?: string | null | undefined } | null | undefined }> } | null | undefined, restaurants?: { __typename?: 'RestaurantEntityResponseCollection', data: Array<{ __typename?: 'RestaurantEntity', id?: string | null | undefined, attributes?: { __typename?: 'Restaurant', name: string, address: string, phone: string, moreOrders: boolean, isClose: boolean, postalCodes?: Array<{ __typename?: 'ComponentRestaurantPostalCode', key: number } | null | undefined> | null | undefined, schedule?: Array<{ __typename?: 'ComponentRestaurantSchedule', opening: any, closing: any, days?: { __typename?: 'DayRelationResponseCollection', data: Array<{ __typename?: 'DayEntity', attributes?: { __typename?: 'Day', key: number, day: string } | null | undefined }> } | null | undefined } | null | undefined> | null | undefined } | null | undefined }> } | null | undefined, items?: { __typename?: 'ItemEntityResponseCollection', data: Array<{ __typename?: 'ItemEntity', id?: string | null | undefined, attributes?: { __typename?: 'Item', name: string, restaurant?: Array<{ __typename?: 'ComponentItemRestaurant', price: number, available: boolean, restaurant?: { __typename?: 'RestaurantEntityResponse', data?: { __typename?: 'RestaurantEntity', id?: string | null | undefined } | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined }> } | null | undefined };
+
+
+export const AppDataDocument = gql`
+    query AppData {
+  beverages {
+    data {
+      id
+      attributes {
+        name
+        position
+        restaurant {
+          price
+          available
+          restaurant {
+            data {
+              id
+            }
+          }
+        }
+      }
+    }
+  }
+  burgers {
+    data {
+      id
+      attributes {
+        name
+        position
+        ingredients {
+          data {
+            id
+            attributes {
+              name
+              inSalad
+              inBurger
+              inSandwich
+            }
+          }
+        }
+        position
+        isYourTaste
+        isChildrenMenu
+        description
+        restaurants {
+          price
+          available
+          restaurant {
+            data {
+              id
+            }
+          }
+          meat {
+            data {
+              id
+            }
+          }
+          meatPoint {
+            data {
+              id
+            }
+          }
+          bread {
+            data {
+              id
+            }
+          }
+          beverage {
+            data {
+              id
+            }
+          }
+          sides {
+            data {
+              id
+            }
+          }
+        }
+      }
+    }
+  }
+  desserts {
+    data {
+      id
+      attributes {
+        name
+        position
+        restaurant {
+          price
+          available
+          restaurant {
+            data {
+              id
+            }
+          }
+        }
+      }
+    }
+  }
+  options {
+    data {
+      id
+      attributes {
+        name
+        items {
+          data {
+            id
+          }
+        }
+        beverages {
+          data {
+            id
+          }
+        }
+        sides {
+          data {
+            id
+          }
+        }
+      }
+    }
+  }
+  salads {
+    data {
+      id
+      attributes {
+        name
+        position
+        description
+        ingredients {
+          data {
+            id
+            attributes {
+              name
+              inBurger
+              inSandwich
+              inSalad
+            }
+          }
+        }
+        restaurant {
+          price
+          available
+          restaurant {
+            data {
+              id
+            }
+          }
+        }
+      }
+    }
+  }
+  sandwiches {
+    data {
+      id
+      attributes {
+        name
+        description
+        ingredients {
+          data {
+            id
+            attributes {
+              name
+              inBurger
+              inSandwich
+              inSalad
+            }
+          }
+        }
+        position
+        restaurants {
+          available
+          price
+          restaurant {
+            data {
+              id
+            }
+          }
+          bread {
+            data {
+              id
+            }
+          }
+          beverage {
+            data {
+              id
+            }
+          }
+          side {
+            data {
+              id
+            }
+          }
+        }
+      }
+    }
+  }
+  sides {
+    data {
+      id
+      attributes {
+        name
+        description
+        position
+        isCustomizable
+        selectOneOption
+        isSauce
+        ingredients {
+          data {
+            id
+            attributes {
+              name
+              inBurger
+              inSandwich
+              inSalad
+            }
+          }
+        }
+        sauces {
+          data {
+            id
+            attributes {
+              name
+              inBurger
+              inSandwich
+              inSalad
+            }
+          }
+        }
+        restaurant {
+          price
+          available
+          restaurant {
+            data {
+              id
+            }
+          }
+        }
+      }
+    }
+  }
+  ingredients {
+    data {
+      id
+      attributes {
+        name
+        inBurger
+        inSandwich
+        inSalad
+        restaurants {
+          price
+          restaurant {
+            data {
+              id
+            }
+          }
+        }
+      }
+    }
+  }
+  categories {
+    data {
+      id
+      attributes {
+        name
+        position
+        asset
+      }
+    }
+  }
+  restaurants {
+    data {
+      id
+      attributes {
+        name
+        address
+        phone
+        moreOrders
+        isClose
+        postalCodes {
+          key
+        }
+        schedule {
+          opening
+          closing
+          days {
+            data {
+              attributes {
+                key
+                day
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  items {
+    data {
+      id
+      attributes {
+        name
+        restaurant {
+          price
+          available
+          restaurant {
+            data {
+              id
+            }
+          }
+        }
+      }
+    }
+  }
+  categories {
+    data {
+      id
+      attributes {
+        name
+        position
+        asset
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useAppDataQuery__
+ *
+ * To run a query within a React component, call `useAppDataQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAppDataQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAppDataQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useAppDataQuery(baseOptions?: Apollo.QueryHookOptions<AppDataQuery, AppDataQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AppDataQuery, AppDataQueryVariables>(AppDataDocument, options);
+      }
+export function useAppDataLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AppDataQuery, AppDataQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AppDataQuery, AppDataQueryVariables>(AppDataDocument, options);
+        }
+export type AppDataQueryHookResult = ReturnType<typeof useAppDataQuery>;
+export type AppDataLazyQueryHookResult = ReturnType<typeof useAppDataLazyQuery>;
+export type AppDataQueryResult = Apollo.QueryResult<AppDataQuery, AppDataQueryVariables>;

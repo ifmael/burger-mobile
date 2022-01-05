@@ -11,8 +11,8 @@ import {
 } from "@expo-google-fonts/comfortaa";
 import InitialError from "../../components/common/ErrorFallback";
 
-import useData from "./useData";
-import { AppData } from "./Global.types";
+import useAppData from "./useAppData";
+import { AppData } from "../../types";
 
 type GlobalContextProviderProps = {
     children: ReactNode;
@@ -28,17 +28,19 @@ export default function GlobalProvider({ children }: GlobalContextProviderProps)
         Comfortaa600,
         Comfortaa700,
     });
-    const { loading, error, data } = useData();
+    const { loading, error, appData } = useAppData();
 
-    if (!fontsLoaded || loading) {
-        return <AppLoading />;
-    }
     if (error) {
         return <InitialError error={error} />;
     }
 
-    // eslint-disable-next-line react/jsx-no-constructed-context-values
-    return <GlobalContext.Provider value={{ ...data }}>{children}</GlobalContext.Provider>;
+    if (!fontsLoaded || loading || !appData) {
+        return <AppLoading />;
+    }
+
+    console.log(appData);
+
+    return <GlobalContext.Provider value={appData}>{children}</GlobalContext.Provider>;
 }
 
 export function useGlobalContext() {

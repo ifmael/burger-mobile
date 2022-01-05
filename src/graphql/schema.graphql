@@ -284,11 +284,13 @@ type ComponentItemRestaurant {
   id: ID!
   restaurant: RestaurantEntityResponse
   price: Float!
+  available: Boolean!
 }
 
 input ComponentItemRestaurantFiltersInput {
   restaurant: RestaurantFiltersInput
   price: FloatFilterInput
+  available: BooleanFilterInput
   and: [ComponentItemRestaurantFiltersInput]
   or: [ComponentItemRestaurantFiltersInput]
   not: ComponentItemRestaurantFiltersInput
@@ -298,6 +300,7 @@ input ComponentItemRestaurantInput {
   id: ID
   restaurant: ID
   price: Float
+  available: Boolean
 }
 
 type ComponentRestaurantPostalCode {
@@ -964,8 +967,8 @@ type Restaurant {
   name: String!
   address: String!
   phone: String!
-  moreOrders: Boolean
-  isClose: Boolean
+  moreOrders: Boolean!
+  isClose: Boolean!
   schedule(filters: ComponentRestaurantScheduleFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): [ComponentRestaurantSchedule]
   postalCodes(filters: ComponentRestaurantPostalCodeFiltersInput, pagination: PaginationArg = {}, sort: [String] = []): [ComponentRestaurantPostalCode]
   createdAt: DateTime
