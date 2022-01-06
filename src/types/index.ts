@@ -9,6 +9,7 @@ import {
     Item as ItemAPI,
     Option as OptionAPI,
     Category as CategoryAPI,
+    Ingredient as IngredientAPI,
     AppDataQuery,
 } from "../graphql/models";
 
@@ -125,6 +126,11 @@ export type CategoryApp = CategoryAPI & {
     id: string;
 };
 
+export type IngredientApp = Omit<IngredientAPI, "restaurant"> & {
+    id: string;
+    restaurant: PriceRestaurant[];
+};
+
 export type AppData = {
     restaurants: RestaurantApp[];
     beverages: BeverageApp[];
@@ -136,6 +142,7 @@ export type AppData = {
     items: ItemApp[];
     options: OptionApp[];
     categories: CategoryApp[];
+    ingredients: IngredientApp[];
 };
 
 // Apollo Query
@@ -149,3 +156,4 @@ export type BurgerQuery = AppDataQuery["burgers"];
 export type ItemQuery = AppDataQuery["items"];
 export type OptionQuery = AppDataQuery["options"];
 export type CategoryQuery = AppDataQuery["categories"];
+export type IngredientQuery = AppDataQuery["ingredients"];

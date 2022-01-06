@@ -2604,6 +2604,25 @@ export const AppDataDocument = gql`
       }
     }
   }
+  ingredients {
+    data {
+      id
+      attributes {
+        name
+        inSalad
+        inBurger
+        inSandwich
+        restaurants {
+          price
+          restaurant {
+            data {
+              id
+            }
+          }
+        }
+      }
+    }
+  }
 }
     `;
 

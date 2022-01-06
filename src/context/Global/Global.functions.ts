@@ -8,6 +8,8 @@ import {
     CategoryQuery,
     DessertApp,
     DessertsQuery,
+    IngredientApp,
+    IngredientQuery,
     ItemApp,
     ItemQuery,
     RestaurantApp,
@@ -35,12 +37,13 @@ type Schedule = {
 
 // ################  COMPONENTS  ################
 
-const convertComponentRestaurant = (restaurants: ComponentCommonRestaurant): PriceRestaurant[] => {
+const convertComponentRestaurant = (restaurants: ComponentCommonRestaurant, avalaible = false): PriceRestaurant[] => {
     return (
         restaurants?.reduce((acc, currentValue) => {
             const restaurantId = currentValue?.restaurant?.data?.id ?? "";
+            const isAvailable = currentValue.available ?? avalaible;
 
-            return currentValue && currentValue.available && restaurantId !== ""
+            return currentValue && isAvailable && restaurantId !== ""
                 ? [...acc, { price: currentValue.price, restaurantId }]
                 : acc;
         }, [] as PriceRestaurant[]) ?? []
@@ -348,4 +351,29 @@ export const convertCategory = (collectionCategory: CategoryQuery): CategoryApp[
     }
 
     return categories;
+};
+
+export const convertIngredient = (ingredientCollection: IngredientQuery): IngredientApp[] => {
+    let ingredients: IngredientApp[] = [];
+
+    if (ingredientCollection) {
+        ingredients = ingredientCollection.data.map(({ id, attributes }) => {
+            const restaurant = attributes?.restaurants
+                ? convertComponentRestaurant(attributes.restaurants as ComponentCommonRestaurant, true)
+                : [];
+
+            const ingredient = {
+                id: id ?? "",
+                name: attributes?.name ?? "",
+                inSalad: !!attributes?.inSalad,
+                inBurger: !!attributes?.inBurger,
+                inSandwich: !!attributes?.inSandwich,
+                restaurant,
+            };
+
+            return ingredient;
+        });
+    }
+
+    return ingredients;
 };

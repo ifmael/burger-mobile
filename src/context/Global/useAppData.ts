@@ -14,6 +14,7 @@ import {
     convertSandwich,
     convertSide,
     convertSimpleModel,
+    convertIngredient,
 } from "./Global.functions";
 
 // Types
@@ -37,6 +38,7 @@ const useAppData = () => {
                 options: convertOption(data.options),
                 restaurants: convertRestaurant(data.restaurants),
                 categories: convertCategory(data.categories),
+                ingredients: convertIngredient(data.ingredients),
             });
         } catch (errorEffect) {
             console.warn(errorEffect);

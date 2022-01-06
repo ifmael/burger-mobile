@@ -2,6 +2,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { NativeBaseProvider } from "native-base";
 import { ApolloProvider } from "@apollo/client";
 import GlobalProvider from "./src/context/Global";
+import RestaurantProvider from "./src/context/Restaurant";
 import SafeAreaView from "./src/components/common/SafeAreaView";
 
 // Navigation
@@ -14,13 +15,15 @@ export default function App() {
     return (
         <ApolloProvider client={client}>
             <GlobalProvider>
-                <SafeAreaView>
-                    <NativeBaseProvider theme={theme}>
-                        <NavigationContainer>
-                            <MainStack />
-                        </NavigationContainer>
-                    </NativeBaseProvider>
-                </SafeAreaView>
+                <RestaurantProvider>
+                    <SafeAreaView>
+                        <NativeBaseProvider theme={theme}>
+                            <NavigationContainer>
+                                <MainStack />
+                            </NavigationContainer>
+                        </NativeBaseProvider>
+                    </SafeAreaView>
+                </RestaurantProvider>
             </GlobalProvider>
         </ApolloProvider>
     );

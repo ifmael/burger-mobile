@@ -14,13 +14,9 @@ import InitialError from "../../components/common/ErrorFallback";
 import useAppData from "./useAppData";
 import { AppData } from "../../types";
 
-type GlobalContextProviderProps = {
-    children: ReactNode;
-};
-
 const GlobalContext = createContext<AppData | undefined>(undefined);
 
-export default function GlobalProvider({ children }: GlobalContextProviderProps) {
+export default function GlobalProvider({ children }: { children: ReactNode }) {
     const [fontsLoaded] = useFonts({
         Comfortaa300,
         Comfortaa400,
@@ -38,12 +34,10 @@ export default function GlobalProvider({ children }: GlobalContextProviderProps)
         return <AppLoading />;
     }
 
-    console.log(appData);
-
     return <GlobalContext.Provider value={appData}>{children}</GlobalContext.Provider>;
 }
 
-export function useGlobalContext() {
+export const useGlobalContext = () => {
     const context = useContext(GlobalContext);
 
     if (context === undefined) {
@@ -51,4 +45,4 @@ export function useGlobalContext() {
     }
 
     return context;
-}
+};
