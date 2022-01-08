@@ -1,5 +1,5 @@
 import { ApolloClient, ApolloLink, HttpLink, InMemoryCache } from "@apollo/client";
-import getConfigEnvironment from "../config";
+import getConfigEnvironment from "config";
 
 const { server, apiToken } = getConfigEnvironment();
 

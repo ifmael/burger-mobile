@@ -1121,7 +1121,7 @@ type SandwichRelationResponseCollection {
 }
 
 type Side {
-  name: String
+  name: String!
   position: Int
   category: CategoryEntityResponse
   isCustomizable: Boolean

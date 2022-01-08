@@ -1,5 +1,5 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { ShoppingCart, ProductDetail } from "../../screens";
+import { ShoppingCart, ProductDetail } from "components/screens";
 import MenuTabs from "../MenuTabs";
 
 const Stack = createNativeStackNavigator();

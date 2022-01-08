@@ -25,8 +25,7 @@ import {
     SidesQuery,
     ComponentCommonRestaurant,
     PriceRestaurant,
-    IngredientName,
-} from "../../types";
+} from "types";
 import { BeverageEntity, IngredientEntity, ItemEntity, SideEntity } from "../../graphql/models";
 
 type Schedule = {
@@ -50,21 +49,18 @@ const convertComponentRestaurant = (restaurants: ComponentCommonRestaurant, aval
     );
 };
 
-const convertComponentIngredientName = (ingredientRelationColleciton: IngredientEntity[]): IngredientName[] => {
+const convertComponentIngredient = (ingredientRelationColleciton: IngredientEntity[]): string[] => {
     return (
         ingredientRelationColleciton?.reduce(
-            (acc, ingredientValue) =>
-                ingredientValue.id && ingredientValue.attributes?.name
-                    ? [...acc, { id: ingredientValue.id, name: ingredientValue.attributes.name }]
-                    : acc,
-            [] as IngredientName[]
+            (acc, ingredientValue) => (ingredientValue.id ? [...acc, ingredientValue.id] : acc),
+            [] as string[]
         ) ?? []
     );
 };
 
 // ################  MODELS  ################
 
-export const convertRestaurant = (restaurantCollection: RestaurantsQuery): RestaurantApp[] => {
+export const convertRestaurantApp = (restaurantCollection: RestaurantsQuery): RestaurantApp[] => {
     let restaurants: RestaurantApp[] = [];
     if (restaurantCollection) {
         restaurants = restaurantCollection.data.map(({ id, attributes }) => {
@@ -111,7 +107,7 @@ export const convertRestaurant = (restaurantCollection: RestaurantsQuery): Resta
     return restaurants;
 };
 
-export const convertSalad = (saladCollection: SaladsQuery): SaladApp[] => {
+export const convertSaladApp = (saladCollection: SaladsQuery): SaladApp[] => {
     let salads: SaladApp[] = [];
 
     if (saladCollection) {
@@ -121,7 +117,7 @@ export const convertSalad = (saladCollection: SaladsQuery): SaladApp[] => {
                 : [];
 
             const ingredients = attributes?.ingredients?.data
-                ? convertComponentIngredientName(attributes.ingredients.data)
+                ? convertComponentIngredient(attributes.ingredients.data)
                 : [];
 
             const salad = {
@@ -139,7 +135,7 @@ export const convertSalad = (saladCollection: SaladsQuery): SaladApp[] => {
     return salads;
 };
 
-export const convertSide = (sideCollection: SidesQuery): SideApp[] => {
+export const convertSideApp = (sideCollection: SidesQuery): SideApp[] => {
     let sides: SideApp[] = [];
 
     if (sideCollection) {
@@ -149,9 +145,9 @@ export const convertSide = (sideCollection: SidesQuery): SideApp[] => {
                 : [];
 
             const ingredients = attributes?.ingredients?.data
-                ? convertComponentIngredientName(attributes.ingredients.data)
+                ? convertComponentIngredient(attributes.ingredients.data)
                 : [];
-            const sauces = attributes?.sauces?.data ? convertComponentIngredientName(attributes.sauces.data) : [];
+            const sauces = attributes?.sauces?.data ? convertComponentIngredient(attributes.sauces.data) : [];
 
             const side = {
                 id: id ?? "",
@@ -173,13 +169,13 @@ export const convertSide = (sideCollection: SidesQuery): SideApp[] => {
     return sides;
 };
 
-export const convertSandwich = (sandwichCollection: SandwichQuery): SandwichApp[] => {
+export const convertSandwichApp = (sandwichCollection: SandwichQuery): SandwichApp[] => {
     let sandwiches: SandwichApp[] = [];
 
     if (sandwichCollection) {
         sandwiches = sandwichCollection.data.map(({ id, attributes }) => {
             const ingredients = attributes?.ingredients?.data
-                ? convertComponentIngredientName(attributes.ingredients.data)
+                ? convertComponentIngredient(attributes.ingredients.data)
                 : [];
 
             // Configuration for each restaurant (price, available, beverages, sides and bread)
@@ -212,13 +208,13 @@ export const convertSandwich = (sandwichCollection: SandwichQuery): SandwichApp[
     return sandwiches;
 };
 
-export const convertBurger = (burgerCollection: BurgerQuery): BurgerApp[] => {
+export const convertBurgerApp = (burgerCollection: BurgerQuery): BurgerApp[] => {
     let burgers: BurgerApp[] = [];
 
     if (burgerCollection) {
         burgers = burgerCollection.data.map(({ id, attributes }) => {
             const ingredients = attributes?.ingredients?.data
-                ? convertComponentIngredientName(attributes.ingredients.data)
+                ? convertComponentIngredient(attributes.ingredients.data)
                 : [];
 
             const restaurants =
@@ -264,7 +260,7 @@ export const convertBurger = (burgerCollection: BurgerQuery): BurgerApp[] => {
     return burgers;
 };
 
-export const convertItem = (itemCollection: ItemQuery): ItemApp[] => {
+export const convertItemApp = (itemCollection: ItemQuery): ItemApp[] => {
     let items: ItemApp[] = [];
 
     if (itemCollection) {
@@ -286,7 +282,7 @@ export const convertItem = (itemCollection: ItemQuery): ItemApp[] => {
     return items;
 };
 
-export const convertOption = (optionCollection: OptionQuery): OptionApp[] => {
+export const convertOptionApp = (optionCollection: OptionQuery): OptionApp[] => {
     let options: OptionApp[] = [];
     if (optionCollection) {
         options = optionCollection.data.map(({ id, attributes }) => {
@@ -338,7 +334,7 @@ export function convertSimpleModel(collection: BeveragesQuery | DessertsQuery): 
     return modelElements;
 }
 
-export const convertCategory = (collectionCategory: CategoryQuery): CategoryApp[] => {
+export const convertCategoryApp = (collectionCategory: CategoryQuery): CategoryApp[] => {
     let categories: CategoryApp[] = [];
 
     if (collectionCategory) {
@@ -353,7 +349,7 @@ export const convertCategory = (collectionCategory: CategoryQuery): CategoryApp[
     return categories;
 };
 
-export const convertIngredient = (ingredientCollection: IngredientQuery): IngredientApp[] => {
+export const convertIngredientApp = (ingredientCollection: IngredientQuery): IngredientApp[] => {
     let ingredients: IngredientApp[] = [];
 
     if (ingredientCollection) {

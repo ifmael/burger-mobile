@@ -1,20 +1,20 @@
 import { useEffect, useState } from "react";
 
 // Graphql
-import { useAppDataQuery } from "../../graphql/models";
+import { useAppDataQuery } from "graphql/models";
 
 // Utils
 import {
-    convertCategory,
-    convertBurger,
-    convertItem,
-    convertOption,
-    convertRestaurant,
-    convertSalad,
-    convertSandwich,
-    convertSide,
+    convertCategoryApp,
+    convertBurgerApp,
+    convertItemApp,
+    convertOptionApp,
+    convertRestaurantApp,
+    convertSaladApp,
+    convertSandwichApp,
+    convertSideApp,
     convertSimpleModel,
-    convertIngredient,
+    convertIngredientApp,
 } from "./Global.functions";
 
 // Types
@@ -30,15 +30,15 @@ const useAppData = () => {
             setAppData({
                 beverages: convertSimpleModel(data.beverages),
                 desserts: convertSimpleModel(data.desserts),
-                salads: convertSalad(data.salads),
-                sides: convertSide(data.sides),
-                sandwiches: convertSandwich(data.sandwiches),
-                burgers: convertBurger(data.burgers),
-                items: convertItem(data.items),
-                options: convertOption(data.options),
-                restaurants: convertRestaurant(data.restaurants),
-                categories: convertCategory(data.categories),
-                ingredients: convertIngredient(data.ingredients),
+                salads: convertSaladApp(data.salads),
+                sides: convertSideApp(data.sides),
+                sandwiches: convertSandwichApp(data.sandwiches),
+                burgers: convertBurgerApp(data.burgers),
+                items: convertItemApp(data.items),
+                options: convertOptionApp(data.options),
+                restaurants: convertRestaurantApp(data.restaurants),
+                categories: convertCategoryApp(data.categories),
+                ingredients: convertIngredientApp(data.ingredients),
             });
         } catch (errorEffect) {
             console.warn(errorEffect);

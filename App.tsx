@@ -1,9 +1,9 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { NativeBaseProvider } from "native-base";
 import { ApolloProvider } from "@apollo/client";
-import GlobalProvider from "./src/context/Global";
-import RestaurantProvider from "./src/context/Restaurant";
-import SafeAreaView from "./src/components/common/SafeAreaView";
+import SafeAreaView from "components/common/SafeAreaView";
+import GlobalProvider from "context/Global";
+import RestaurantProvider from "context/Restaurant";
 
 // Navigation
 import MainStack from "./src/components/navigation/MainStack";

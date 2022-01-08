@@ -11,7 +11,7 @@ import {
     Category as CategoryAPI,
     Ingredient as IngredientAPI,
     AppDataQuery,
-} from "../graphql/models";
+} from "graphql/models";
 
 export type UndefinedNull = undefined | null;
 
@@ -28,7 +28,6 @@ type Merge<A, B> = {
 //  ############### Model App Configuration ###############
 
 export type PriceRestaurant = { price: number; restaurantId: string };
-export type IngredientName = { id: string; name: string };
 export type SideConfiguration = {
     breadOption: string;
     beverageOption: string;
@@ -75,12 +74,12 @@ export type RestaurantApp = Omit<RestaurantAPI, "schedule" | "postalCodes"> & {
     postalCodes: number[];
 };
 
-export type BeverageApp = Omit<BeverageAPI, "restaurant"> & {
+export type BeverageApp = Omit<BeverageAPI, "restaurant" | "__typename"> & {
     id: string;
     restaurant: PriceRestaurant[];
 };
 
-export type DessertApp = Omit<DessertAPI, "restaurant"> & {
+export type DessertApp = Omit<DessertAPI, "restaurant" | "__typename"> & {
     id: string;
     restaurant: PriceRestaurant[];
 };
@@ -88,25 +87,25 @@ export type DessertApp = Omit<DessertAPI, "restaurant"> & {
 export type SaladApp = Omit<SaladAPI, "restaurant" | "ingredients"> & {
     id: string;
     restaurant: PriceRestaurant[];
-    ingredients: IngredientName[];
+    ingredients: string[];
 };
 
 export type SideApp = Omit<SideAPI, "restaurant" | "ingredients" | "sauces"> & {
     id: string;
     restaurant: PriceRestaurant[];
-    ingredients: IngredientName[];
-    sauces: IngredientName[];
+    ingredients: string[];
+    sauces: string[];
 };
 
 export type SandwichApp = Omit<SandwichAPI, "restaurant" | "ingredients"> & {
     id: string;
-    ingredients: IngredientName[];
+    ingredients: string[];
     restaurant: (SideConfiguration & PriceRestaurant)[];
 };
 
 export type BurgerApp = Omit<BurgerAPI, "restaurants" | "ingredients"> & {
     id: string;
-    ingredients: IngredientName[];
+    ingredients: string[];
     restaurants: (BurgerConfiguration & PriceRestaurant)[];
 };
 
@@ -157,3 +156,136 @@ export type ItemQuery = AppDataQuery["items"];
 export type OptionQuery = AppDataQuery["options"];
 export type CategoryQuery = AppDataQuery["categories"];
 export type IngredientQuery = AppDataQuery["ingredients"];
+
+// Models
+export type Ingredient = {
+    id: string;
+    name: string;
+    price: number;
+    inSalad: boolean;
+    inBurger: boolean;
+    inSandwich: boolean;
+};
+
+export type IngredientProduct = {
+    id: string;
+    name: string;
+    price: number;
+    selected: boolean;
+};
+
+export type Item = {
+    id: string;
+    name: string;
+    price: number;
+};
+
+export type Beverage = {
+    id: string;
+    name: string;
+    price: number;
+    position: number;
+};
+
+export type Dessert = {
+    id: string;
+    name: string;
+    price: number;
+    position: number;
+};
+
+export type SaladPage = {
+    id: string;
+    name: string;
+    description: string;
+    price: number;
+    position: number;
+    ingredients: Ingredient[];
+    ingredientsExtra: Ingredient[];
+};
+export type Salad = {
+    id: string;
+    name: string;
+    price: number;
+    ingredients: IngredientProduct[];
+    ingredientsExtra: IngredientProduct[];
+};
+
+export type SidePage = {
+    id: string;
+    name: string;
+    description: string;
+    price: number;
+    position: number;
+    isCustomizable: boolean;
+    isSauce: boolean;
+    selectOneOption: boolean;
+    ingredients: Ingredient[];
+    sauces: Ingredient[];
+};
+
+export type Side = {
+    id: string;
+    name: string;
+    price: number;
+    isSauce: boolean;
+    ingredients: IngredientProduct[];
+    sauces: IngredientProduct[];
+};
+
+export type SandwichPage = {
+    id: string;
+    name: string;
+    description: string;
+    price: number;
+    position: number;
+    ingredients: Ingredient[];
+    ingredientsExtra: Ingredient[];
+    bread: Item[];
+    sides: SidePage[];
+    beverages: Beverage[];
+};
+
+export type Sandwich = {
+    id: string;
+    name: string;
+    price: number;
+    isMenu: boolean;
+    ingredients: IngredientProduct[];
+    ingredientsExtra: IngredientProduct[];
+    bread: Item;
+    beverage: Beverage;
+    side: Side;
+};
+
+export type BurgerPage = {
+    name: string;
+    description: string;
+    price: number;
+    position: number;
+    isChildrenMenu: boolean;
+    isYourTaste: boolean;
+    ingredients: Ingredient[];
+    ingredientsExtra: Ingredient[];
+    bread: Item[];
+    meat: Item[];
+    meatPoint: Item[];
+    sides: SidePage[];
+    beverages: Beverage[];
+};
+
+export type Burger = {
+    id: string;
+    name: string;
+    price: number; // total for ingredients and menu or only the basic prodict price ??
+    isChildrenMenu: boolean;
+    isYourTaste: boolean;
+    isMenu: boolean;
+    ingredients: IngredientProduct[];
+    ingredientsExtra: IngredientProduct[];
+    bread: Item;
+    meat: Item;
+    meatPoint: Item;
+    beverage: Beverage;
+    side: Side;
+};

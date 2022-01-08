@@ -204,23 +204,11 @@ query AppData {
                 ingredients {
                     data {
                         id
-                        attributes {
-                            name
-                            inBurger
-                            inSandwich
-                            inSalad
-                        }
                     }
                 }
                 sauces {
                     data {
                         id
-                        attributes {
-                            name
-                            inBurger
-                            inSandwich
-                            inSalad
-                        }
                     }
                 }
                 restaurant {

@@ -9,10 +9,10 @@ import {
     Comfortaa_600SemiBold as Comfortaa600,
     Comfortaa_700Bold as Comfortaa700,
 } from "@expo-google-fonts/comfortaa";
-import InitialError from "../../components/common/ErrorFallback";
+import InitialError from "components/common/ErrorFallback";
 
+import { AppData } from "types";
 import useAppData from "./useAppData";
-import { AppData } from "../../types";
 
 const GlobalContext = createContext<AppData | undefined>(undefined);
 

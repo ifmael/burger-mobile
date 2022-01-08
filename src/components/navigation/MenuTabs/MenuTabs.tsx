@@ -1,6 +1,6 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import MenuStack from "../MenuStack";
-import Home from "../../screens/Home";
+import MenuStack from "components/navigation/MenuStack";
+import Home from "components/screens/Home";
 
 const Tab = createBottomTabNavigator();
 
