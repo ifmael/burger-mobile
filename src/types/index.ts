@@ -259,6 +259,7 @@ export type Sandwich = {
 };
 
 export type BurgerPage = {
+    id: string;
     name: string;
     description: string;
     price: number;
@@ -288,4 +289,15 @@ export type Burger = {
     meatPoint: Item;
     beverage: Beverage;
     side: Side;
+};
+
+export type RestaurantData = {
+    items: Item[];
+    beverages: Beverage[];
+    desserts: Dessert[];
+    ingredients: Ingredient[];
+    sidesPages: SidePage[];
+    saladsPages: SaladPage[];
+    sandwichesPages: SandwichPage[];
+    burgersPages: BurgerPage[];
 };
