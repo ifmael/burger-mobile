@@ -9,10 +9,8 @@ import {
     Comfortaa_600SemiBold as Comfortaa600,
     Comfortaa_700Bold as Comfortaa700,
 } from "@expo-google-fonts/comfortaa";
+import { useAppData, AppData } from "@ifmael/burger-data";
 import InitialError from "components/common/ErrorFallback";
-
-import { AppData } from "types";
-import useAppData from "./useAppData";
 
 const GlobalContext = createContext<AppData | undefined>(undefined);
 

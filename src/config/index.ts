@@ -2,7 +2,7 @@ import Constants from "expo-constants";
 import * as Updates from "expo-updates";
 
 // Types
-import { Config } from "types";
+import { Config } from "@ifmael/burger-data";
 
 const getConfigEnvironment = (): Config => {
     const releaseChannel = Constants.manifest?.extra?.releaseChannel ?? Updates.releaseChannel;
